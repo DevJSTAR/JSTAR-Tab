@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New JSTAR Tab</title>
+    <link rel="icon" href="images/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Onboarding Process -->
+    <div id="onboarding-modal" class="modal hidden">
+        <div class="modal-backdrop"></div>
+        <div class="modal-content">
+            <div class="step" data-step="1">
+                <div class="welcome-icon">
+                    <i class="fas fa-hand-wave"></i>
+                </div>
+                <h2>Welcome to JSTAR Tab! 👋</h2>
+                <p>Let's personalize your experience</p>
+                <div class="input-group">
+                    <input type="text" id="user-name" placeholder="What's your name?">
+                </div>
+                <button id="next-step-btn" class="btn-primary">Continue</button>
+            </div>
+            <div class="step hidden" data-step="2">
+                <h2>Choose Your Search Engine</h2>
+                <div class="search-engine-options">
+                    <!-- Search engine options -->
+                    <div class="search-engine-option" data-engine="google">
+                        <img src="https://www.google.com/favicon.ico" alt="Google">
+                        <span>Google</span>
+                    </div>
+                    <div class="search-engine-option" data-engine="bing">
+                        <img src="https://www.bing.com/favicon.ico" alt="Bing">
+                        <span>Bing</span>
+                    </div>
+                    <div class="search-engine-option" data-engine="duckduckgo">
+                        <img src="https://duckduckgo.com/favicon.ico" alt="DuckDuckGo">
+                        <span>DuckDuckGo</span>
+                    </div>
+                    <div class="search-engine-option" data-engine="brave">
+                        <img src="https://brave.com/static-assets/images/brave-favicon.png" alt="Brave">
+                        <span>Brave</span>
+                    </div>
+                    <div class="search-engine-option" data-engine="qwant">
+                        <img src="https://www.qwant.com/favicon.ico" alt="Qwant">
+                        <span>Qwant</span>
+                    </div>
+                    <div class="search-engine-option" data-engine="searxng">
+                        <img src="https://www.searx.org/favicon.ico" alt="SearXNG">
+                        <span>SearXNG</span>
+                    </div>
+                </div>
+                <button id="complete-setup-btn" class="btn-primary">Get Started</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Application Content -->
+    <div id="main-content" class="hidden">
+        <div class="center-container">
+            <div id="greeting"></div>
+            <div id="search-container" class="search-container">
+                <div class="search-wrapper">
+                    <input type="text" id="search-bar" placeholder="Search the web">
+                    <button id="search-button" class="search-icon">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="shortcuts-container">
+                <div id="shortcuts-grid"></div>
+                <button id="add-shortcut" class="btn-primary" data-tooltip="Maximum shortcuts limit (9) reached">
+                    <i class="fas fa-plus"></i>
+                </button>
+            </div>
+        </div>
+
+        <button id="settings-button" class="settings-button">
+            <i class="fas fa-cog"></i>
+        </button>
+    </div>
+
+    <!-- Settings Panel -->
+    <div id="settings-modal" class="modal hidden">
+        <div class="modal-content settings-panel">
+            <div class="modal-header">
+                <h2>Settings</h2>
+                <button id="close-settings" class="btn-icon">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <div class="settings-sections">
+                <!-- Personalization Settings -->
+                <div class="settings-section">
+                    <h3>Personalization</h3>
+                    <div class="setting-item">
+                        <div class="setting-label">Display Name</div>
+                        <input type="text" id="settings-name" placeholder="Enter your name">
+                    </div>
+                    <div class="setting-item">
+                        <div class="setting-label">Anonymous Mode</div>
+                        <label class="toggle">
+                            <input type="checkbox" id="toggle-anonymous">
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Search Settings -->
+                <div class="settings-section">
+                    <h3>Search</h3>
+                    <div class="setting-item">
+                        <div class="setting-label">Search Engine</div>
+                        <select id="search-engine-select">
+                            <option value="google">Google</option>
+                            <option value="bing">Bing</option>
+                            <option value="duckduckgo">DuckDuckGo</option>
+                            <option value="brave">Brave</option>
+                            <option value="qwant">Qwant</option>
+                            <option value="searxng">SearXNG</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Appearance Settings -->
+                <div class="settings-section">
+                    <h3>Appearance</h3>
+                    <div class="setting-item">
+                        <div class="setting-label">Theme</div>
+                        <button id="toggle-theme" class="btn-icon">
+                            <i class="fas fa-moon"></i>
+                        </button>
+                    </div>
+                    
+                    <div class="setting-item">
+                        <div class="setting-label">Show Greeting</div>
+                        <label class="toggle">
+                            <input type="checkbox" id="toggle-greeting" checked>
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                    
+                    <div class="setting-item">
+                        <div class="setting-label">Show Search Bar</div>
+                        <label class="toggle">
+                            <input type="checkbox" id="toggle-search" checked>
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                    
+                    <div class="setting-item">
+                        <div class="setting-label">Show Shortcuts</div>
+                        <label class="toggle">
+                            <input type="checkbox" id="toggle-shortcuts" checked>
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                    
+                    <div class="setting-item">
+                        <div class="setting-label">Show Add Shortcut Button</div>
+                        <label class="toggle">
+                            <input type="checkbox" id="toggle-add-shortcut" checked>
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Data Management -->
+                <div class="settings-section">
+                    <h3>Data Management</h3>
+                    <div class="data-management-buttons">
+                        <button id="import-data" class="btn-primary">
+                            <i class="fas fa-upload"></i> Import Data
+                        </button>
+                        <button id="export-data" class="btn-primary">
+                            <i class="fas fa-download"></i> Export Data
+                        </button>
+                        <button id="reset-data" class="btn-primary btn-danger">
+                            <i class="fas fa-trash"></i> Reset All Data
+                        </button>
+                    </div>
+                    <input type="file" id="import-file" accept=".json" style="display: none;">
+                </div>
+
+                <!-- About Section -->
+                <div class="settings-section">
+                    <h3>About</h3>
+                    <div class="about-content">
+                        <p>JSTAR Tab v2.0.0</p>
+                        <p>Author: JSTAR</p>
+                        <p>Homepage: <a href="https://github.com/DevJSTAR/JSTAR-Tab" target="_blank">GitHub Repository</a></p>
+                        <p>Latest Update: <a href="https://github.com/DevJSTAR/JSTAR-Tab/releases/latest" target="_blank">Check for updates</a></p>
+                        <p>License: <a href="https://github.com/DevJSTAR/JSTAR-Tab/blob/main/LICENSE" target="_blank">MIT License</a></p>
+                        <p class="made-with">Made with <i class="fas fa-heart"></i> by JSTAR</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Add Shortcut Modal -->
+    <div id="add-shortcut-modal" class="modal hidden">
+        <div class="modal-backdrop"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Add Shortcut</h2>
+                <button id="cancel-shortcut" class="btn-icon">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="input-group">
+                <input type="text" id="shortcut-name" placeholder="Enter name">
+            </div>
+            <div class="input-group">
+                <input type="text" id="shortcut-url" placeholder="Enter URL (e.g., https://example.com)">
+            </div>
+            <button id="save-shortcut" class="btn-primary">Add Shortcut</button>
+        </div>
+    </div>
+
+    <!-- Edit Shortcut Modal -->
+    <div id="edit-shortcut-modal" class="modal hidden">
+        <div class="modal-backdrop"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Edit Shortcut</h2>
+                <button id="close-edit-shortcut" class="btn-icon">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="input-group">
+                <input type="text" id="edit-shortcut-name" placeholder="Enter name">
+            </div>
+            <div class="input-group">
+                <input type="text" id="edit-shortcut-url" placeholder="Enter URL">
+            </div>
+            <div class="modal-actions">
+                <button id="save-edit-shortcut" class="btn-primary">Save</button>
+                <button id="cancel-edit-shortcut" class="btn-primary">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification Container -->
+    <div id="notification-container"></div>
+
+    <!-- Context Menu -->
+    <div id="context-menu" class="context-menu hidden">
+        <div class="context-menu-item" data-action="edit">
+            <i class="fas fa-edit"></i> Edit
+        </div>
+        <div class="context-menu-item" data-action="delete">
+            <i class="fas fa-trash"></i> Delete
+        </div>
+    </div>
+
+    <!-- JavaScript Files -->
+    <script src="js/storage.js"></script>
+    <script src="js/notifications.js"></script>
+    <script src="js/onboarding.js"></script>
+    <script src="js/search.js"></script>
+    <script src="js/shortcuts.js"></script>
+    <script src="js/settings.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
