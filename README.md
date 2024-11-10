@@ -1,12 +1,20 @@
-# 🌟 JSTAR Tab v1.0.0
+# 🌟 JSTAR Tab v2.0.0
 
-Welcome to **JSTAR Tab v1.0.0**! This extension transforms your new tab into a personalized dashboard with shortcuts, a search bar, and customizable settings. 🚀
+Welcome to **JSTAR Tab v2.0.0**! This is a customizable new tab extension for your browser, designed to enhance your browsing experience with personalization options, shortcuts, and more. 🚀
+
+## 🎉 What's New in v2.0.0?
+
+- **Improved Shortcuts**: Add, edit, and manage up to 12 shortcuts with ease. 🔗
+- **Enhanced Personalization**: Set your display name and toggle anonymous mode to hide your name and shortcuts. 🕵️‍♂️
+- **Data Management**: Import, export, and reset your settings and shortcuts. 📦
+- **Notifications**: Get instant feedback with our new notification system. 🔔
+- **Onboarding Process**: A guided setup to personalize your experience right from the start. 🎓
 
 ## 📥 Installation
 
 To set up JSTAR Tab locally, follow these steps:
 
-1. **Download the Files**: Clone or download the repository to your local machine.
+1. **Download the Latest Release**: [JSTAR Tab v2.0.0](https://github.com/DevJSTAR/JSTAR-Tab/releases/latest)
 2. **Extract the Files**: Unzip the downloaded file to a directory of your choice.
 3. **Load the Extension**:
    - Open your browser and navigate to the extensions page.
@@ -15,30 +23,24 @@ To set up JSTAR Tab locally, follow these steps:
 
 ## 🛠️ Features
 
-- **Customizable Themes**: Switch between light and dark themes to suit your mood. 🌗
-- **Personalized Greeting**: Displays a greeting based on the time of day and your anonymization settings.
-- **Search Bar**: Quickly search the web using Brave's search engine.
-- **Shortcut Management**: Add, edit, and remove shortcuts to your favorite sites.
-- **Settings Panel**: Access various settings including theme toggle and shortcut management.
-- **Anonymization**: Toggle anonymization to hide your name in the greeting.
+- **Customizable Themes**: Choose between light and dark themes to suit your mood. 🌗
+- **Personalized Greeting**: Set a custom greeting with your name.
+- **Search Engine Selection**: Choose your preferred search engine from a variety of options.
+- **Shortcut Management**: Easily add, edit, and remove shortcuts to your favorite sites.
+- **Data Backup and Restore**: Export your settings and shortcuts to a file and import them back anytime.
+- **Onboarding Process**: A step-by-step guide to help you set up your new tab with ease.
 
 ## 🎨 Customizing Your JSTAR Tab
-
-1. **Themes**: Use the theme switch in the settings to toggle between light and dark modes.
-   
-2. **Greeting**: The greeting changes based on the time of day and whether anonymization is enabled.
-
-3. **Shortcuts**: 
-   - **Add**: Click the "Add Shortcut" button, enter a name and URL, and save.
-   - **Edit**: Right-click on a shortcut and select "Edit" to modify its details.
-   - **Delete**: Right-click on a shortcut and select "Delete" to remove it.
-
-4. **Search Engine**: The search bar uses Brave's search engine by default.
+1. **Onboarding**: When you first install the extension, you'll be guided through an onboarding process to set up your preferences, including your name and preferred search engine.
+2. **Themes**: Switch between light and dark themes using the theme toggle button in the settings. This changes the overall appearance of your new tab.
+3. **Greeting**: Personalize your greeting by entering your name in the settings. This will display a friendly message each time you open a new tab.
+4. **Shortcuts**: Add shortcuts to your most visited sites. Click the "+" button to add a new shortcut, enter the name and URL, and save. You can also edit or delete shortcuts by right-clicking on them.
+5. **Search Engine**: Select your preferred search engine from the settings. This will be used for all searches performed from the new tab.
 
 ## 📚 Usage
 
 - **Settings**: Click the settings icon ⚙️ to open the settings panel where you can customize your experience.
-- **Add Shortcuts**: Click the "+" button to add a new shortcut. Enter the URL and name, then save.
+- **Add Shortcuts**: Click the "+" button to add a new shortcut. Enter the name and URL, then save.
 - **Edit Shortcuts**: Right-click on a shortcut to edit or delete it.
 - **Theme Toggle**: Switch between light and dark themes using the theme toggle button.
 
@@ -48,11 +50,17 @@ We welcome contributions! If you have suggestions or improvements, feel free to 
 
 ## 📄 License
 
-This project is licensed under the [MIT License](https://github.com/DevJSTAR/JSTAR-Tab/blob/main/LICENSE).
+This project is licensed under the MIT License. See the [LICENSE](https://github.com/DevJSTAR/JSTAR-Tab/blob/main/LICENSE) file for details.
 
 ## ❤️ Acknowledgments
 
 - **Font Awesome**: For the beautiful icons used throughout the extension.
 - **Google Fonts**: For the sleek and modern typography.
 
-Thank you for using JSTAR Tab! We hope it makes your browsing experience more enjoyable and productive. 😊
+## 🌐 Connect with Us
+
+- **[Linktree](https://linktr.ee/jstarsdev)**
+- **[Patreon](https://patreon.com/jstarsdev)**
+- **[Latest Release](https://github.com/DevJSTAR/JSTAR-Tab/releases/latest)**
+
+Thank you for using JSTAR Tab! We hope it makes your browsing experience more enjoyable and productive. 🙂
