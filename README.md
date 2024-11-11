@@ -50,7 +50,7 @@ We welcome contributions! If you have suggestions or improvements, feel free to 
 
 ## 📄 License
 
-This project is licensed under the MIT License. See the [LICENSE](https://github.com/DevJSTAR/JSTAR-Tab/blob/main/LICENSE) file for details.
+This project is licensed under the [MIT License](https://github.com/DevJSTAR/JSTAR-Tab/blob/main/LICENSE).
 
 ## ❤️ Acknowledgments
 
