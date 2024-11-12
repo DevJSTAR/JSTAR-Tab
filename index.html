@@ -19,13 +19,26 @@
                     <i class="fas fa-hand-wave"></i>
                 </div>
                 <h2>Welcome to JSTAR Tab! 👋</h2>
-                <p>Let's personalize your experience</p>
+                <p>Let's get you started</p>
+                <div class="import-options">
+                    <button id="start-fresh-btn" class="btn-primary">Start Fresh</button>
+                    <div class="or-divider">
+                        <span>OR</span>
+                    </div>
+                    <button id="import-data-btn" class="btn-primary">
+                        <i class="fas fa-upload"></i> Import Data
+                    </button>
+                </div>
+                <input type="file" id="onboarding-import" accept=".json" style="display: none;">
+            </div>
+            <div class="step hidden" data-step="2">
+                <h2>What's your name?</h2>
                 <div class="input-group">
-                    <input type="text" id="user-name" placeholder="What's your name?">
+                    <input type="text" id="user-name" placeholder="Enter your name">
                 </div>
                 <button id="next-step-btn" class="btn-primary">Continue</button>
             </div>
-            <div class="step hidden" data-step="2">
+            <div class="step hidden" data-step="3">
                 <h2>Choose Your Search Engine</h2>
                 <div class="search-engine-options">
                     <!-- Search engine options -->
@@ -148,7 +161,7 @@
                     <div class="setting-item">
                         <div class="setting-label">Custom Greeting</div>
                         <input type="text" id="custom-greeting" placeholder="Enter custom greeting">
-                        <span class="format-hint">{name}, {time}, {date}, {day}, {month}, {year}</span>
+                        <span class="format-hint">{name}, {greeting}, {time}, {date}, {day}, {month}, {year}</span>
                     </div>
 
                     <div class="setting-item horizontal">
@@ -176,6 +189,47 @@
                     </div>
                 </div>
 
+                <!-- Keyboard Shortcuts Settings -->
+                <div class="settings-section">
+                    <h3>Keyboard Shortcuts</h3>
+                    <div class="setting-item">
+                        <div class="setting-label">Settings Menu</div>
+                        <div class="keybind-container">
+                            <input type="text" id="keybind-settings" placeholder="Press keys..." readonly>
+                            <button class="clear-keybind" data-for="settings">×</button>
+                        </div>
+                    </div>
+                    <div class="setting-item">
+                        <div class="setting-label">Add Shortcut</div>
+                        <div class="keybind-container">
+                            <input type="text" id="keybind-add-shortcut" placeholder="Press keys..." readonly>
+                            <button class="clear-keybind" data-for="add-shortcut">×</button>
+                        </div>
+                    </div>
+                    <div class="setting-item">
+                        <div class="setting-label">Toggle Anonymous Mode</div>
+                        <div class="keybind-container">
+                            <input type="text" id="keybind-anonymous" placeholder="Press keys..." readonly>
+                            <button class="clear-keybind" data-for="anonymous">×</button>
+                        </div>
+                    </div>
+                    <div class="setting-item">
+                        <div class="setting-label">Toggle Theme</div>
+                        <div class="keybind-container">
+                            <input type="text" id="keybind-theme" placeholder="Press keys..." readonly>
+                            <button class="clear-keybind" data-for="theme">×</button>
+                        </div>
+                    </div>
+                    <div class="setting-item">
+                        <div class="setting-label">Quick URL</div>
+                        <div class="keybind-container">
+                            <input type="text" id="keybind-url-combo" placeholder="Press keys..." readonly>
+                            <button class="clear-keybind" data-for="url">×</button>
+                        </div>
+                        <input type="text" id="keybind-url" placeholder="Enter URL">
+                    </div>
+                </div>
+
                 <!-- Data Management -->
                 <div class="settings-section">
                     <h3>Data Management</h3>
@@ -197,12 +251,11 @@
                 <div class="settings-section">
                     <h3>About</h3>
                     <div class="about-content">
-                        <p>JSTAR Tab v2.5.0</p>
-                        <p>Author: JSTAR</p>
+                        <p>JSTAR Tab v2.6.0</p>
                         <p>Homepage: <a href="https://github.com/DevJSTAR/JSTAR-Tab" target="_blank">GitHub Repository</a></p>
                         <p>Latest Update: <a href="https://github.com/DevJSTAR/JSTAR-Tab/releases/latest" target="_blank">Check for updates</a></p>
                         <p>License: <a href="https://github.com/DevJSTAR/JSTAR-Tab/blob/main/LICENSE" target="_blank">MIT License</a></p>
-                        <p class="made-with">Made with <i class="fas fa-heart"></i> by JSTAR</p>
+                        <p class="made-with">Made with <i class="fas fa-heart"></i> by <a href="https://linktr.ee/jstarsdev" target="_blank">JSTAR</a></p>
                     </div>
                 </div>
             </div>
@@ -273,5 +326,6 @@
     <script src="js/shortcuts.js"></script>
     <script src="js/settings.js"></script>
     <script src="js/main.js"></script>
+    <script src="js/keybinds.js"></script>
 </body>
 </html>

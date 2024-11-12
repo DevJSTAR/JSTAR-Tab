@@ -1,7 +1,7 @@
 const shortcuts = {
     MAX_SHORTCUTS: 12,
 
-    // Validate and format URL
+    // URL Validation
     validateAndFormatUrl: (url) => {
         if (!/^https?:\/\//i.test(url)) {
             url = 'https://' + url;
@@ -15,7 +15,7 @@ const shortcuts = {
         }
     },
 
-    // Add new shortcut
+    // Shortcut Management
     add: (url, name) => {
         const currentShortcuts = Storage.get('shortcuts') || [];
         if (currentShortcuts.length >= shortcuts.MAX_SHORTCUTS) {
@@ -34,7 +34,6 @@ const shortcuts = {
         shortcuts.render();
     },
 
-    // Remove shortcut
     remove: (index) => {
         const currentShortcuts = Storage.get('shortcuts') || [];
         currentShortcuts.splice(index, 1);
@@ -43,7 +42,6 @@ const shortcuts = {
         notifications.show('Shortcut removed!', 'success');
     },
 
-    // Edit existing shortcut
     edit: (index, newUrl, newName) => {
         const currentShortcuts = Storage.get('shortcuts') || [];
         currentShortcuts[index] = { url: newUrl, name: newName };
@@ -52,7 +50,7 @@ const shortcuts = {
         notifications.show('Shortcut updated!', 'success');
     },
 
-    // Show context menu for shortcut
+    // UI Interactions
     showContextMenu: (e, index) => {
         e.preventDefault();
         const menu = document.getElementById('context-menu');
@@ -75,7 +73,7 @@ const shortcuts = {
         }, 0);
     },
 
-    // Render shortcuts grid
+    // Rendering
     render: () => {
         const grid = document.getElementById('shortcuts-grid');
         const currentShortcuts = Storage.get('shortcuts') || [];
@@ -130,9 +128,23 @@ const shortcuts = {
         });
     },
 
-    // Initialize shortcuts functionality
+    // Initialization
     init: () => {
         const addShortcutButton = document.getElementById('add-shortcut');
+        const modal = document.getElementById('add-shortcut-modal');
+        const closeBtn = modal.querySelector('.close-modal');
+        
+        if (closeBtn) {
+            closeBtn.addEventListener('click', () => {
+                modal.classList.remove('active');
+                setTimeout(() => {
+                    modal.classList.add('hidden');
+                    document.getElementById('shortcut-url').value = '';
+                    document.getElementById('shortcut-name').value = '';
+                }, 300);
+            });
+        }
+        
         if (addShortcutButton) {
             addShortcutButton.addEventListener('click', (e) => {
                 e.stopPropagation();
@@ -143,7 +155,6 @@ const shortcuts = {
                     return;
                 }
 
-                const modal = document.getElementById('add-shortcut-modal');
                 if (modal) {
                     modal.classList.remove('hidden');
                     modal.classList.add('active');

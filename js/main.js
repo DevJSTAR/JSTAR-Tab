@@ -1,3 +1,4 @@
+// Greeting functionality
 async function updateGreeting() {
     const greeting = document.getElementById('greeting');
     if (!greeting) return;
@@ -15,7 +16,6 @@ async function updateGreeting() {
         }
     }
 
-    // Fall back to default greeting if custom format is not set or fails
     const hour = new Date().getHours();
     const isAnonymous = Storage.get('anonymousMode') || false;
     const userName = isAnonymous ? 
@@ -35,7 +35,7 @@ async function updateGreeting() {
     }, 100);
 }
 
-// Set up event listeners for modal interactions
+// Modal handling
 function initModalHandlers() {
     const modals = document.querySelectorAll('.modal');
     
@@ -52,10 +52,18 @@ function initModalHandlers() {
                 e.stopPropagation();
             });
         }
+
+        document.querySelectorAll('.modal .close-button').forEach(button => {
+            button.addEventListener('click', () => {
+                const modal = button.closest('.modal');
+                if (modal) {
+                    closeModal(modal);
+                }
+            });
+        });
     });
 }
 
-// Open modal with animation
 function openModal(modal) {
     if (!modal) return;
     modal.classList.remove('hidden');
@@ -64,7 +72,6 @@ function openModal(modal) {
     });
 }
 
-// Close modal with animation
 function closeModal(modal) {
     if (!modal) return;
     modal.classList.remove('active');
@@ -73,9 +80,8 @@ function closeModal(modal) {
     }, 300);
 }
 
-// Initialize application
+// Application initialization
 document.addEventListener('DOMContentLoaded', () => {
-    // Apply visibility settings
     ['greeting', 'search', 'shortcuts', 'addShortcut'].forEach(element => {
         const isVisible = Storage.get(`show_${element}`);
         if (isVisible === false) {
@@ -84,28 +90,39 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Start onboarding or show main content
     if (!Storage.get('onboardingComplete')) {
         onboarding.start();
     } else {
         document.getElementById('main-content').classList.remove('hidden');
     }
     
-    // Initialize features
     search.init();
     shortcuts.init();
     settings.init();
     initModalHandlers();
     
-    // Set up greeting
     updateGreeting();
     setInterval(updateGreeting, 60000);
     
-    // Settings button handler
     const settingsButton = document.getElementById('settings-button');
     const settingsModal = document.getElementById('settings-modal');
     
     settingsButton.addEventListener('click', () => {
         openModal(settingsModal);
     });
+
+    keybinds.init();
+});
+
+// Global keydown event handler
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+        const activeModal = document.querySelector('.modal.active');
+        if (activeModal && !activeModal.matches('#settings-modal')) {
+            const primaryButton = activeModal.querySelector('.btn-primary');
+            if (primaryButton) {
+                primaryButton.click();
+            }
+        }
+    }
 });
