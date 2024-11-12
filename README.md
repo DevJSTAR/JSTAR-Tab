@@ -1,17 +1,14 @@
-# 🌟 JSTAR Tab v2.5.0
+# 🌟 JSTAR Tab v2.6.0
 
-Welcome to **JSTAR Tab v2.5.0**! This is a customizable new tab extension for your browser, designed to enhance your browsing experience with personalization options, shortcuts, and more. 🚀
+Welcome to **JSTAR Tab v2.6.0**! This version builds upon the previous release with new features and improvements to enhance your browsing experience even further. 🚀
 
-## 🎉 What's New in v2.5.0?
+## 🎉 What's New in v2.6.0?
 
-- **Custom Greeting Format**: Create personalized greetings using format tags like {name}, {time}, {date}, {day}, {month}, and {year}! 🎯
-- **Improved UI**: Enhanced visual consistency and responsiveness across different screen sizes. 🎨
-- **Bug Fixes**: 
-  - Fixed scrollbar appearance in settings modal
-  - Improved theme toggle behavior
-  - Enhanced greeting format validation
-  - Better mobile device support
-  - Various CSS and layout improvements
+- **Enhanced Onboarding Process**: The onboarding experience has been revamped to include options for starting fresh or importing data, making it easier to get started.
+- **Keyboard Shortcuts**: Added the ability to configure keyboard shortcuts for quicker navigation and actions.
+- **Improved Data Management**: Enhanced import/export functionality with better validation and error handling.
+- **Custom Greeting Enhancements**: Added new format variables for custom greetings, allowing for more personalized messages.
+- **UI and UX Improvements**: Various updates to the user interface for a more seamless experience, including responsive design adjustments.
 
 ## 📥 Installation
 
@@ -20,7 +17,7 @@ Welcome to **JSTAR Tab v2.5.0**! This is a customizable new tab extension for yo
 3. Follow the installation instructions specific to your browser.
 
 Alternative Manual Installation:
-1. **Download the Latest Release**: [JSTAR Tab v2.5.0](https://github.com/DevJSTAR/JSTAR-Tab/releases/latest)
+1. **Download the Latest Release**: [JSTAR Tab v2.6.0](https://github.com/DevJSTAR/JSTAR-Tab/releases/latest)
 2. **Extract the Files**: Unzip the downloaded file to a directory of your choice.
 3. **Load the Extension**:
    - Open your browser and navigate to the extensions page.
@@ -35,10 +32,13 @@ Alternative Manual Installation:
 - **Shortcut Management**: Easily add, edit, and remove shortcuts to your favorite sites.
 - **Data Backup and Restore**: Export your settings and shortcuts to a file and import them back anytime.
 - **Onboarding Process**: A step-by-step guide to help you set up your new tab with ease.
+- **Keyboard Shortcuts**: Configure shortcuts for quick access to features.
 
 ## 🎨 Customizing Your Greeting
+
 1. **Format Tags**: Use these tags in your custom greeting:
    - `{name}`: Your display name
+   - `{greeting}`: Time-based greeting (e.g., Good morning)
    - `{time}`: Current time
    - `{date}`: Current date
    - `{day}`: Day of the week
@@ -46,7 +46,7 @@ Alternative Manual Installation:
    - `{year}`: Current year
 2. **Examples**:
    - "Hello {name}, it's {time} on {day}!"
-   - "Welcome back {name}! Today is {date}"
+   - "{greeting}, {name}! Today is {date}"
    - "Happy {day}, {name}!"
 
 ## 📚 Usage
@@ -56,6 +56,7 @@ Alternative Manual Installation:
 - **Add Shortcuts**: Click the "+" button to add a new shortcut. Enter the name and URL, then save.
 - **Edit Shortcuts**: Right-click on a shortcut to edit or delete it.
 - **Theme Toggle**: Switch between light and dark themes using the theme toggle button.
+- **Keyboard Shortcuts**: Use configured shortcuts for quick actions.
 
 ## 📝 Contributing
 
