@@ -314,6 +314,7 @@ input[type="text"]:focus {
 
 #add-shortcut:hover {
     background: var(--primary-hover);
+    transform: scale(1.2); /* Scale up the element to 110% */
 }
 
 #shortcuts-grid {
