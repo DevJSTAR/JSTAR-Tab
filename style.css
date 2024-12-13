@@ -337,9 +337,9 @@ input[type="text"]:focus {
     box-shadow: 0 2px 10px var(--shadow);
 }
 
+/* Add hover effect to move the shortcut upward */
 .shortcut:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 15px var(--shadow);
+    transform: scale(1.2); /* Scale up the element to 110% */
 }
 
 .shortcut img {
