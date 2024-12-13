@@ -255,7 +255,15 @@ const shortcuts = {
                     }
                 } else if (action === 'delete') {
                     shortcuts.remove(index);
-                }
+                } else if (action === 'open-new-tab') {
+                    const currentShortcuts = Storage.get('shortcuts') || [];
+                    const shortcut = currentShortcuts[index];
+                                
+                    // Open the URL of the shortcut in a new tab
+                     if (shortcut && shortcut.url) {
+                         window.open(shortcut.url, '_blank');
+                                }
+                        }
                 
                 contextMenu.classList.add('hidden');
             });
