@@ -1,7 +1,7 @@
 {
     "manifest_version": 3,
     "name": "JSTAR Tab",
-    "version": "2.6.0",
+    "version": "2.6.2",
     "description": "JSTAR Tab is a sleek, customizable new tab extension with personalized greetings, shortcuts, anonymous mode, search engine settings, themes, data management, and more, for an enhanced browsing experience.",
     "chrome_url_overrides": {
         "newtab": "index.html"
