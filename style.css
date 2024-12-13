@@ -337,7 +337,7 @@ input[type="text"]:focus {
     box-shadow: 0 2px 10px var(--shadow);
 }
 
-/* Scale go up (no i won't remove this)*/
+/* Scale go up (no i won't remove this) WARP*/
 .shortcut:hover {
     transform: scale(1.079); /* Scale up the element*/
 }
