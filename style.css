@@ -367,8 +367,8 @@ input[type="text"]:focus {
     opacity: 1;
 }
 
-/* Settings styles */
-.settings-button {
+/* Settings styles (so sigma) */
+  .settings-button {
     position: fixed;
     bottom: 2rem;
     right: 2rem;
@@ -384,12 +384,17 @@ input[type="text"]:focus {
     font-size: 1.25rem;
     color: var(--text);
     box-shadow: 0 4px 24px var(--shadow);
-}
+    transition: transform 0.4s ease;
+  }
 
-.settings-button:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 32px var(--shadow);
-}
+  .settings-button:hover {
+    transform: rotate(180deg);
+  }
+
+  .settings-button:active {
+    transform: rotate(360deg);
+  }
+
 
 .settings-panel {
     max-height: 80vh;
