@@ -310,11 +310,12 @@ input[type="text"]:focus {
     border: none;
     cursor: pointer;
     transition: background 0.2s ease;
+    transition: transform 0.2s ease;
 }
 
 #add-shortcut:hover {
     background: var(--primary-hover);
-    transform: scale(1.2);
+    transform: scale(1.1);
 }
 
 #shortcuts-grid {
