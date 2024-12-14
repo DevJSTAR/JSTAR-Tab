@@ -246,8 +246,8 @@ input[type="text"]:focus {
 }
 
 .search-engine-option.selected {
-    background: #eeeeee;
-    border: 2px solid var(--border);
+    background: #dddddd;
+    border: 2px solid #dddddd;
 }
 
 .search-engine-option img {
