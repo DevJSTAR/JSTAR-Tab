@@ -1,14 +1,10 @@
-# 🌟 JSTAR Tab v2.6.0
+# 🌟 JSTAR Tab v2.6.2
 
-Welcome to **JSTAR Tab v2.6.0**! This version builds upon the previous release with new features and improvements to enhance your browsing experience even further. 🚀
+Welcome to **JSTAR Tab v2.6.2**! This version builds upon the previous release with new features and improvements to enhance your browsing experience even further. 🚀
 
-## 🎉 What's New in v2.6.0?
+## 🎉 What's New in v2.6.2?
 
-- **Enhanced Onboarding Process**: The onboarding experience has been revamped to include options for starting fresh or importing data, making it easier to get started.
-- **Keyboard Shortcuts**: Added the ability to configure keyboard shortcuts for quicker navigation and actions.
-- **Improved Data Management**: Enhanced import/export functionality with better validation and error handling.
-- **Custom Greeting Enhancements**: Added new format variables for custom greetings, allowing for more personalized messages.
-- **UI and UX Improvements**: Various updates to the user interface for a more seamless experience, including responsive design adjustments.
+- **New/Improved animations**: Experience the new responsive animations in the new update!
 
 ## 📥 Installation
 
@@ -17,7 +13,7 @@ Welcome to **JSTAR Tab v2.6.0**! This version builds upon the previous release w
 3. Follow the installation instructions specific to your browser.
 
 Alternative Manual Installation:
-1. **Download the Latest Release**: [JSTAR Tab v2.6.0](https://github.com/DevJSTAR/JSTAR-Tab/releases/latest)
+1. **Download the Latest Release**: [JSTAR Tab v2.6.2](https://github.com/DevJSTAR/JSTAR-Tab/releases/latest)
 2. **Extract the Files**: Unzip the downloaded file to a directory of your choice.
 3. **Load the Extension**:
    - Open your browser and navigate to the extensions page.
@@ -61,6 +57,7 @@ Alternative Manual Installation:
 ## 📝 Contributing
 
 We welcome contributions! If you have suggestions or improvements, feel free to fork the repository and submit a pull request. For major changes, please open an issue first to discuss what you would like to change.
+Thanks JSTAR.
 
 ## 📄 License
 
@@ -77,4 +74,4 @@ This project is licensed under the [MIT License](https://github.com/DevJSTAR/JST
 - **[Patreon](https://patreon.com/jstarsdev)**
 - **[Latest Release](https://github.com/DevJSTAR/JSTAR-Tab/releases/latest)**
 
-Thank you for using JSTAR Tab! We hope it makes your browsing experience more enjoyable and productive. 🙂
+Thank you for using JSTAR Tab! We hope it makes your browsing experience more enjoyable and productive. Meow? 🙂 
