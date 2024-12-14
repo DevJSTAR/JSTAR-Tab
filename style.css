@@ -314,7 +314,7 @@ input[type="text"]:focus {
 
 #add-shortcut:hover {
     background: var(--primary-hover);
-    transform: scale(1.2); /* Scale up the element to 110% */
+    transform: scale(1.2);
 }
 
 #shortcuts-grid {
@@ -337,9 +337,9 @@ input[type="text"]:focus {
     box-shadow: 0 2px 10px var(--shadow);
 }
 
-/* Scale go up (no i won't remove this) WARP*/
 .shortcut:hover {
-    transform: scale(1.079); /* Scale up the element*/
+    transform: scale(1.079);
+    box-shadow: 0 4px 15px var(--shadow);
 }
 
 .shortcut img {
@@ -368,7 +368,7 @@ input[type="text"]:focus {
     opacity: 1;
 }
 
-/* Settings styles (so sigma) */
+/* Settings styles */
   .settings-button {
     position: fixed;
     bottom: 2rem;
