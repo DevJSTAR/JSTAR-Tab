@@ -67,7 +67,7 @@ Set up custom keybinds for quick actions like opening settings or switching them
 
 ## ❤️ Acknowledgments  
 
-Special thanks to @EquaTechnologies for contributing amazing hover animations for shortcuts, settings, and the "Add Shortcut" button. Your work is truly appreciated! 🌟  
+Special thanks to **[Equa](https://github.com/EquaTechnologies)** for contributing amazing hover animations for shortcuts, settings, and the "Add Shortcut" button. Your work is truly appreciated! 🌟  
 
 ## 📄 License  
 
