@@ -1,4 +1,7 @@
-// Greeting functionality
+if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/sw.js');
+}
+
 async function updateGreeting() {
     const greeting = document.getElementById('greeting');
     if (!greeting) return;
@@ -35,7 +38,6 @@ async function updateGreeting() {
     }, 100);
 }
 
-// Modal handling
 function initModalHandlers() {
     const modals = document.querySelectorAll('.modal');
     
@@ -66,6 +68,12 @@ function initModalHandlers() {
 
 function openModal(modal) {
     if (!modal) return;
+
+    const contextMenu = document.querySelector('.context-menu');
+    if (contextMenu) {
+        contextMenu.classList.add('hidden');
+    }
+
     modal.classList.remove('hidden');
     requestAnimationFrame(() => {
         modal.classList.add('active');
@@ -80,15 +88,25 @@ function closeModal(modal) {
     }, 300);
 }
 
-// Application initialization
 document.addEventListener('DOMContentLoaded', () => {
-    ['greeting', 'search', 'shortcuts', 'addShortcut'].forEach(element => {
-        const isVisible = Storage.get(`show_${element}`);
-        if (isVisible === false) {
-            const elementNode = document.getElementById(element === 'search' ? 'search-container' : element);
-            if (elementNode) elementNode.style.display = 'none';
-        }
-    });
+    if (typeof settings !== 'undefined' && typeof settings.updateVisibility === 'function') {
+        settings.updateVisibility();
+    } else {
+        ['greeting', 'search', 'shortcuts', 'addShortcut'].forEach(element => {
+            const isVisible = Storage.get(`show_${element}`);
+            if (isVisible === false) {
+                const elementNode = document.getElementById(element === 'search' ? 'search-container' : 
+                    element === 'addShortcut' ? 'add-shortcut' : element);
+                
+                if (elementNode) {
+                    elementNode.style.visibility = 'hidden';
+                    elementNode.style.opacity = '0';
+                    elementNode.style.position = 'absolute';
+                    elementNode.style.pointerEvents = 'none';
+                }
+            }
+        });
+    }
 
     if (!Storage.get('onboardingComplete')) {
         onboarding.start();
@@ -114,7 +132,6 @@ document.addEventListener('DOMContentLoaded', () => {
     keybinds.init();
 });
 
-// Global keydown event handler
 document.addEventListener('keydown', (e) => {
     if (e.key === 'Enter') {
         const activeModal = document.querySelector('.modal.active');

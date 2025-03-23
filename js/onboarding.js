@@ -1,136 +1,327 @@
-// Onboarding module
 const onboarding = {
-    // Core functions
+    currentStep: 1,
+    totalSteps: 5,
+    settings: {},
+    lastNotification: 0,
+    isCompleting: false,
+    notificationShown: false,
+
+    showNotification(message, type = 'info') {
+        const now = Date.now();
+        if (now - this.lastNotification >= 500) {
+            this.lastNotification = now;
+            notifications.show(message, type);
+        }
+    },
+
     isComplete: () => {
         return Storage.get('onboardingComplete') === true;
     },
 
     start: () => {
-        const modal = document.getElementById('onboarding-modal');
+        const onboardingContainer = document.getElementById('onboarding-container');
         const mainContent = document.getElementById('main-content');
-        const importDataBtn = document.getElementById('import-data-btn');
-        const startFreshBtn = document.getElementById('start-fresh-btn');
         const fileInput = document.getElementById('onboarding-import');
-        
+
+        document.getElementById('notification-container').style.zIndex = "20000";
+
         if (!onboarding.isComplete()) {
-            modal.classList.remove('hidden');
-            modal.classList.add('active');
-            mainContent.classList.add('hidden');
+            document.body.style.overflow = 'hidden';
+            onboardingContainer.classList.remove('hidden');
             
-            startFreshBtn.addEventListener('click', () => {
-                document.querySelector('[data-step="1"]').classList.add('hidden');
-                document.querySelector('[data-step="2"]').classList.remove('hidden');
-                document.getElementById('next-step-btn').addEventListener('click', () => onboarding.nextStep(2));
-            });
-            
-            importDataBtn.addEventListener('click', () => fileInput.click());
-            
-            // Data import handling
-            fileInput.addEventListener('change', async (e) => {
-                if (e.target.files.length > 0) {
-                    try {
-                        const file = e.target.files[0];
-                        const text = await file.text();
-                        const data = JSON.parse(text);
-                        
-                        if (!data.settings || typeof data.settings !== 'object' ||
-                            !Array.isArray(data.shortcuts)) {
-                            throw new Error('Invalid data structure');
-                            return;
-                        }
+            onboarding.initProgressDots();
+            onboarding.setupEventListeners();
 
-                        Object.entries(data.settings).forEach(([key, value]) => {
-                            Storage.set(key, value);
-                        });
+            const theme = Storage.get('theme') || 'light';
+            document.body.setAttribute('data-theme', theme);
 
-                        Storage.set('shortcuts', data.shortcuts);
-
-                        if (data.keybinds) {
-                            Storage.set('keybinds', data.keybinds);
-                        }
-
-                        // Initialize components
-                        search.init();
-                        shortcuts.init();
-                        settings.init();
-                        updateGreeting();
-                        document.body.setAttribute('data-theme', data.settings.theme || 'light');
-
-                        // Update UI visibility
-                        ['greeting', 'search', 'shortcuts', 'addShortcut'].forEach(element => {
-                            const isVisible = data.settings[`show_${element}`];
-                            const elementNode = document.getElementById(element === 'search' ? 'search-container' : element);
-                            if (elementNode) {
-                                elementNode.style.display = isVisible === false ? 'none' : 'block';
-                            }
-                        });
-
-                        Storage.set('onboardingComplete', true);
-                        modal.classList.add('hidden');
-                        mainContent.classList.remove('hidden');
-                        
-                        const userName = Storage.get('userName') || 'Guest';
-                        notifications.show(`Welcome back, ${userName}! 👋`, 'success');
-                    } catch (error) {
-                        notifications.show('Failed to import data: Invalid file format!', 'error');
-                        fileInput.value = '';
-                    }
+            document.querySelectorAll('.step-ob').forEach(step => {
+                if (step.dataset.step !== "1") {
+                    step.classList.remove('active-ob');
                 }
             });
-
-            // Search engine selection
-            const engines = document.querySelectorAll('.search-engine-option');
-            engines.forEach(engine => {
-                engine.addEventListener('click', () => {
-                    engines.forEach(e => e.classList.remove('selected'));
-                    engine.classList.add('selected');
-                });
-            });
-
-            document.getElementById('complete-setup-btn').addEventListener('click', onboarding.complete);
+            
+            const firstStep = document.querySelector('.step-ob[data-step="1"]');
+            firstStep.classList.add('active-ob');
+            
+            document.getElementById('prev-step').style.visibility = 'hidden';
+            
+            const nextButton = document.getElementById('next-step');
+            nextButton.innerHTML = 'Next <svg><use href="#icon-arrow-right"/></svg>';
+            
+            if (onboarding.currentStep > 1) {
+                nextButton.disabled = true;
+                nextButton.classList.add('disabled-ob');
+            }
+            
+            mainContent.classList.add('hidden');
         } else {
-            modal.classList.add('hidden');
             mainContent.classList.remove('hidden');
         }
-    },
 
-    // Onboarding step navigation
-    nextStep: (currentStep) => {
-        const currentStepEl = document.querySelector(`[data-step="${currentStep}"]`);
-        const nextStepEl = document.querySelector(`[data-step="${currentStep + 1}"]`);
-        
-        if (currentStep === 2) {
-            const name = document.getElementById('user-name').value.trim();
-            if (!name) {
-                notifications.show('Please enter your name!', 'error');
-                return;
+        fileInput.addEventListener('change', async (e) => {
+            if (e.target.files.length > 0) {
+                try {
+                    const file = e.target.files[0];
+                    const text = await file.text();
+                    const data = JSON.parse(text);
+                    
+                    if (!data.settings || !data.shortcuts || !Array.isArray(data.shortcuts)) {
+                        throw new Error('Invalid data structure');
+                    }
+
+                    Object.entries(data.settings).forEach(([key, value]) => {
+                        Storage.set(key, value);
+                    });
+
+                    Storage.set('shortcuts', data.shortcuts);
+
+                    if (data.keybinds) {
+                        Storage.set('keybinds', data.keybinds);
+                    }
+
+                    Storage.set('onboardingComplete', true);
+                    
+                    localStorage.setItem('showWelcomeAfterImport', 'true');
+                    
+                    window.location.reload();
+                } catch (error) {
+                    onboarding.showNotification('Failed to import data: Invalid file format!', 'error');
+                    fileInput.value = '';
+                }
             }
-            Storage.set('userName', name);
-        }
-        
-        currentStepEl.classList.add('hidden');
-        nextStepEl.classList.remove('hidden');
-        nextStepEl.classList.add('visible');
+        });
     },
 
-    // Finalize onboarding
-    complete: () => {
-        const selectedEngine = document.querySelector('.search-engine-option.selected');
-        if (!selectedEngine) {
-            notifications.show('Please select a search engine!', 'error');
-            return;
+    setupEventListeners: () => {
+        document.querySelectorAll('.option-card-ob').forEach(card => {
+            card.addEventListener('click', () => {
+                const step = card.closest('.step-ob');
+                const stepNumber = parseInt(step.dataset.step);
+                const cards = step.querySelectorAll('.option-card-ob');
+                const nextButton = document.getElementById('next-step');
+                
+                if (card.dataset.action === 'import-data') {
+                    if (!card.classList.contains('selected-ob')) {
+                        document.getElementById('onboarding-import').click();
+                    }
+                    cards.forEach(c => c.classList.remove('selected-ob'));
+                    card.classList.add('selected-ob');
+                    return;
+                }
+
+                cards.forEach(c => c.classList.remove('selected-ob'));
+                card.classList.add('selected-ob');
+
+                card.style.transform = 'scale(1.05)';
+                setTimeout(() => {
+                    card.style.transform = 'scale(1.02)';
+                }, 150);
+
+                nextButton.disabled = false;
+                nextButton.classList.remove('disabled-ob');
+                
+                if (card.dataset.theme) {
+                    onboarding.settings.theme = card.dataset.theme;
+                    document.body.setAttribute('data-theme', card.dataset.theme);
+                } else if (card.dataset.font) {
+                    onboarding.settings.fontFamily = card.dataset.font;
+                    document.documentElement.style.setProperty('--font-family', card.dataset.font);
+                } else if (card.dataset.engine) {
+                    onboarding.settings.searchEngine = card.dataset.engine;
+                }
+            });
+        });
+
+        const nameInput = document.getElementById('user-name');
+        const nextButton = document.getElementById('next-step');
+        
+        nameInput.addEventListener('input', (e) => {
+            const name = e.target.value.trim();
+            if (name) {
+                onboarding.settings.userName = name;
+                
+                if (onboarding.currentStep === 4) {
+                    nextButton.disabled = false;
+                    nextButton.classList.remove('disabled-ob');
+                }
+            } else {
+                if (onboarding.currentStep === 4) {
+                    nextButton.disabled = true;
+                    nextButton.classList.add('disabled-ob');
+                }
+            }
+        });
+
+        document.getElementById('prev-step').addEventListener('click', () => {
+            if (onboarding.currentStep > 1) {
+                onboarding.navigateToStep(onboarding.currentStep - 1);
+            }
+        });
+
+        document.getElementById('next-step').addEventListener('click', () => {
+            let canProceed = true;
+            
+            if (onboarding.currentStep === 2 && !onboarding.settings.theme) {
+                onboarding.showNotification('Please select a theme!', 'error');
+                canProceed = false;
+            }
+            
+            else if (onboarding.currentStep === 3 && !onboarding.settings.fontFamily) {
+                onboarding.showNotification('Please select a font!', 'error');
+                canProceed = false;
+            }
+            
+            else if (onboarding.currentStep === 4) {
+                const name = document.getElementById('user-name').value.trim();
+                
+                if (!name) {
+                    onboarding.showNotification('Please enter your name!', 'error');
+                    canProceed = false;
+                } else {
+                    onboarding.settings.userName = name;
+                }
+            }
+            
+            else if (onboarding.currentStep === 5 && !onboarding.settings.searchEngine) {
+                onboarding.showNotification('Please select a search engine!', 'error');
+                canProceed = false;
+            }
+
+            if (canProceed) {
+                if (onboarding.currentStep < onboarding.totalSteps) {
+                    onboarding.navigateToStep(onboarding.currentStep + 1);
+                } else {
+                    onboarding.isCompleting = true;
+                    localStorage.setItem('showWelcomeAfterImport', 'true');
+                    onboarding.complete();
+                }
+            }
+        });
+        
+        document.querySelectorAll('.step-ob').forEach(step => {
+            if (step.dataset.step !== "1" && step.dataset.step !== "4") {
+                const firstOption = step.querySelector('.option-card-ob');
+                if (firstOption) {
+                    setTimeout(() => {
+                        firstOption.click();
+                    }, 100);
+                }
+            }
+        });
+    },
+
+    navigateToStep: (step) => {
+        const prevButton = document.getElementById('prev-step');
+        const nextButton = document.getElementById('next-step');
+        
+        const currentStepEl = document.querySelector(`.step-ob[data-step="${onboarding.currentStep}"]`);
+        if (currentStepEl) {
+            currentStepEl.classList.remove('active-ob');
         }
         
-        const searchEngine = selectedEngine.dataset.engine;
-        Storage.set('searchEngine', searchEngine);
-        Storage.set('onboardingComplete', true);
+        setTimeout(() => {
+            const targetStepEl = document.querySelector(`.step-ob[data-step="${step}"]`);
+            if (targetStepEl) {
+                targetStepEl.classList.add('active-ob');
+            }
+            
+            onboarding.currentStep = step;
+            
+            prevButton.style.visibility = step === 1 ? 'hidden' : 'visible';
+            
+            if (step === onboarding.totalSteps) {
+                nextButton.innerHTML = 'Get Started <svg><use href="#icon-sparkle"/></svg>';
+            } else {
+                nextButton.innerHTML = 'Next <svg><use href="#icon-arrow-right"/></svg>';
+            }
+            
+            if ((step === 2 && !onboarding.settings.theme) || 
+                (step === 3 && !onboarding.settings.fontFamily) || 
+                (step === 5 && !onboarding.settings.searchEngine)) {
+                nextButton.disabled = true;
+                nextButton.classList.add('disabled-ob');
+            } else if (step === 4) {
+                const name = document.getElementById('user-name').value.trim();
+                if (!name) {
+                    nextButton.disabled = true;
+                    nextButton.classList.add('disabled-ob');
+                } else {
+                    nextButton.disabled = false;
+                    nextButton.classList.remove('disabled-ob');
+                }
+            } else if (step === 1) {
+                nextButton.disabled = false;
+                nextButton.classList.remove('disabled-ob');
+            }
+            
+            onboarding.updateProgressDots();
+        }, 100);
+    },
+
+    initProgressDots: () => {
+        const container = document.querySelector('.progress-dots-ob');
+        container.innerHTML = '';
         
-        const modal = document.getElementById('onboarding-modal');
+        for (let i = 0; i < onboarding.totalSteps; i++) {
+            const dot = document.createElement('div');
+            dot.className = 'dot-ob' + (i === 0 ? ' active-ob' : '');
+            container.appendChild(dot);
+        }
+    },
+
+    updateProgressDots: () => {
+        const dots = document.querySelectorAll('.dot-ob');
+        dots.forEach((dot, index) => {
+            dot.classList.toggle('active-ob', index + 1 === onboarding.currentStep);
+        });
+    },
+    
+    complete: () => {
+        const onboardingContainer = document.getElementById('onboarding-container');
         const mainContent = document.getElementById('main-content');
         
-        modal.classList.add('hidden');
-        mainContent.classList.remove('hidden');
-        notifications.show('Welcome to your new tab! 👋', 'success');
-        updateGreeting();
+        if (!onboarding.settings.theme) onboarding.settings.theme = 'light';
+        if (!onboarding.settings.fontFamily) onboarding.settings.fontFamily = 'Inter';
+        if (!onboarding.settings.searchEngine) onboarding.settings.searchEngine = 'google';
+        if (!onboarding.settings.userName) onboarding.settings.userName = 'User';
+        
+        document.body.setAttribute('data-theme', onboarding.settings.theme);
+        document.documentElement.style.setProperty('--font-family', onboarding.settings.fontFamily);
+        
+        Object.entries(onboarding.settings).forEach(([key, value]) => {
+            Storage.set(key, value);
+        });
+
+        Storage.set('onboardingComplete', true);
+        
+        setTimeout(() => {
+            onboardingContainer.classList.add('hidden');
+            mainContent.classList.remove('hidden');
+            document.body.style.overflow = '';
+            
+            search.init();
+            shortcuts.init();
+            settings.init();
+            updateGreeting();
+            
+            setTimeout(() => {
+                if (!onboarding.notificationShown) {
+                    onboarding.notificationShown = true;
+                    onboarding.showNotification('Welcome to your new JSTAR Tab! 🎉', 'success');
+                }
+            }, 100);
+        }, 500);
     }
 };
+
+document.addEventListener('DOMContentLoaded', () => {
+    onboarding.start();
+
+    if (onboarding.isComplete() && localStorage.getItem('showWelcomeAfterImport') === 'true') {
+        localStorage.removeItem('showWelcomeAfterImport');
+        setTimeout(() => {
+            notifications.show('Welcome to your new JSTAR Tab! 🎉', 'success');
+        }, 500);
+    }
+});

@@ -1,7 +1,6 @@
 const shortcuts = {
     MAX_SHORTCUTS: 12,
 
-    // URL Validation
     validateAndFormatUrl: (url) => {
         if (!/^https?:\/\//i.test(url)) {
             url = 'https://' + url;
@@ -15,7 +14,6 @@ const shortcuts = {
         }
     },
 
-    // Shortcut Management
     add: (url, name) => {
         const currentShortcuts = Storage.get('shortcuts') || [];
         if (currentShortcuts.length >= shortcuts.MAX_SHORTCUTS) {
@@ -32,6 +30,7 @@ const shortcuts = {
         currentShortcuts.push({ url: formattedUrl, name });
         Storage.set('shortcuts', currentShortcuts);
         shortcuts.render();
+        CacheUpdater.update();
     },
 
     remove: (index) => {
@@ -40,6 +39,7 @@ const shortcuts = {
         Storage.set('shortcuts', currentShortcuts);
         shortcuts.render();
         notifications.show('Shortcut removed!', 'success');
+        CacheUpdater.update();
     },
 
     edit: (index, newUrl, newName) => {
@@ -48,9 +48,9 @@ const shortcuts = {
         Storage.set('shortcuts', currentShortcuts);
         shortcuts.render();
         notifications.show('Shortcut updated!', 'success');
+        CacheUpdater.update();
     },
 
-    // UI Interactions
     showContextMenu: (e, index) => {
         e.preventDefault();
         const menu = document.getElementById('context-menu');
@@ -73,7 +73,6 @@ const shortcuts = {
         }, 0);
     },
 
-    // Rendering
     render: () => {
         const grid = document.getElementById('shortcuts-grid');
         const currentShortcuts = Storage.get('shortcuts') || [];
@@ -85,9 +84,12 @@ const shortcuts = {
             const element = document.createElement('div');
             element.className = `shortcut ${isAnonymous ? 'blurred' : ''}`;
             
+            element.dataset.index = index;
+            
             const icon = document.createElement('img');
             icon.src = `https://www.google.com/s2/favicons?domain=${shortcut.url}&sz=64`;
             icon.alt = shortcut.name;
+            icon.draggable = false;
             
             const name = document.createElement('span');
             name.textContent = shortcut.name;
@@ -96,10 +98,12 @@ const shortcuts = {
             element.appendChild(name);
             
             element.addEventListener('click', (e) => {
-                if (e.ctrlKey) {
-                    window.open(shortcut.url, '_blank');
-                } else {
-                    window.location.href = shortcut.url;
+                if (!grid.classList.contains('grid-draggable') || !e.target.closest('.shortcut').classList.contains('drag-active')) {
+                    if (e.ctrlKey) {
+                        window.open(shortcut.url, '_blank');
+                    } else {
+                        window.location.href = shortcut.url;
+                    }
                 }
             });
             
@@ -128,7 +132,6 @@ const shortcuts = {
         });
     },
 
-    // Initialization
     init: () => {
         const addShortcutButton = document.getElementById('add-shortcut');
         const modal = document.getElementById('add-shortcut-modal');
@@ -201,7 +204,6 @@ const shortcuts = {
             });
         }
         
-        // Context menu actions
         const contextMenu = document.getElementById('context-menu');
         if (contextMenu) {
             contextMenu.addEventListener('click', (e) => {
@@ -258,12 +260,11 @@ const shortcuts = {
                 } else if (action === 'open-new-tab') {
                     const currentShortcuts = Storage.get('shortcuts') || [];
                     const shortcut = currentShortcuts[index];
-                                
-                    // Open the URL of the shortcut in a new tab
-                     if (shortcut && shortcut.url) {
-                         window.open(shortcut.url, '_blank');
-                                }
-                        }
+
+                    if (shortcut && shortcut.url) {
+                        window.open(shortcut.url, '_blank');
+                    }
+                }
                 
                 contextMenu.classList.add('hidden');
             });

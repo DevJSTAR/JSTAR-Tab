@@ -1,8 +1,8 @@
-// List of keys that cannot be used as keybinds
 const FORBIDDEN_KEYS = [
     'Tab', 'CapsLock', 'Meta', 'ContextMenu',
     'F1', 'F2', 'F3', 'F4', 'F5', 'F6', 'F7', 'F8', 'F9', 'F10', 'F11', 'F12',
-    'Home', 'End', 'PageUp', 'PageDown', 'Insert', 'Delete', 'ScrollLock', 'Pause', 'NumLock'
+    'Home', 'End', 'PageUp', 'PageDown', 'Insert', 'Delete', 'ScrollLock', 'Pause', 'NumLock',
+    '/'
 ];
 
 const keybinds = {
@@ -11,7 +11,6 @@ const keybinds = {
     init() {
         this.bindings = Storage.get('keybinds') || {};
         
-        // URL keybind handling
         const urlInput = document.getElementById('keybind-url');
         const urlComboInput = document.getElementById('keybind-url-combo');
 
@@ -67,7 +66,6 @@ const keybinds = {
             }
         });
 
-        // Keybind input handling
         const keybindInputs = document.querySelectorAll('[id^="keybind-"]');
         keybindInputs.forEach(input => {
             if (input.id === 'keybind-url') {
@@ -168,7 +166,6 @@ const keybinds = {
             });
         });
 
-        // Clear keybind button handling
         document.querySelectorAll('.clear-keybind').forEach(button => {
             button.addEventListener('click', () => {
                 const action = button.dataset.for;
@@ -186,7 +183,6 @@ const keybinds = {
             });
         });
 
-        // Global keybind listener
         document.addEventListener('keydown', (e) => {
             if (e.target.tagName === 'INPUT') return;
 
@@ -206,39 +202,45 @@ const keybinds = {
         });
     },
 
-    // Execute the action associated with a keybind
     executeAction(action, binding) {
-        const activeModal = document.querySelector('.modal.active');
-        if (activeModal) {
-            closeModal(activeModal);
+        const settingsPage = document.getElementById('settings-page');
+        if (settingsPage.classList.contains('active')) {
+            settingsPage.classList.remove('active');
+            setTimeout(() => {
+                settingsPage.classList.add('hidden');
+            }, 300);
         }
+
+        const activeModal = document.querySelector('.modal.active');
 
         switch (action) {
             case 'settings':
-                const settingsModal = document.getElementById('settings-modal');
-                if (settingsModal === activeModal) {
+                if (settingsPage.classList.contains('hidden')) {
+                    notifications.show('Opening settings.', 'info');
+                    settings.updateSettingsUI();
+                    settingsPage.classList.remove('hidden');
+                    setTimeout(() => {
+                        settingsPage.classList.add('active');
+                    }, 10);
+                } else {
                     notifications.show('Settings closed.', 'info');
                     settings.updateSettingsUI();
-                } else {
-                    notifications.show('Opening settings...', 'info');
-                    settings.updateSettingsUI();
-                    openModal(settingsModal);
                 }
                 break;
             case 'add-shortcut':
                 const currentShortcuts = Storage.get('shortcuts') || [];
-            if (currentShortcuts.length >= shortcuts.MAX_SHORTCUTS) {
-                notifications.show('Maximum shortcuts limit reached!', 'error');
-                return;
-            }
-            
-            const shortcutModal = document.getElementById('add-shortcut-modal');
-            if (shortcutModal === activeModal) {
-                notifications.show('Add shortcut closed.', 'info');
-            } else {
-                notifications.show('Opening add shortcut...', 'info');
-                openModal(shortcutModal);
-            }
+                if (currentShortcuts.length >= shortcuts.MAX_SHORTCUTS) {
+                    notifications.show('Maximum shortcuts limit reached!', 'error');
+                    return;
+                }
+                
+                const shortcutModal = document.getElementById('add-shortcut-modal');
+                if (shortcutModal === activeModal) {
+                    notifications.show('Add shortcut menu closed.', 'info');
+                } else {
+                    notifications.show('Opening add shortcut menu.', 'info');
+                    openModal(shortcutModal);
+                }
                 break;
             case 'anonymous':
                 settings.toggleAnonymousMode();

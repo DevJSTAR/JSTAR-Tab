@@ -1,9 +1,4 @@
-/**
- * Storage utility object for managing localStorage operations
- * All methods handle JSON parsing/stringifying and error cases
- */
 const Storage = {
-    // Retrieve and parse stored value
     get: (key) => {
         try {
             return JSON.parse(localStorage.getItem(key));
@@ -12,7 +7,6 @@ const Storage = {
         }
     },
 
-    // Store value as JSON string
     set: (key, value) => {
         try {
             localStorage.setItem(key, JSON.stringify(value));
@@ -22,7 +16,6 @@ const Storage = {
         }
     },
 
-    // Delete specific key
     remove: (key) => {
         try {
             localStorage.removeItem(key);
@@ -32,7 +25,6 @@ const Storage = {
         }
     },
 
-    // Remove all stored data
     clear: () => {
         try {
             localStorage.clear();

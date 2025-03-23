@@ -1,23 +1,19 @@
-// Notification System Class
 class NotificationSystem {
     constructor() {
         this.container = document.getElementById('notification-container');
         this.notifications = new Map();
     }
 
-    // Display a new notification
     show(message, type = 'info', duration = 3000) {
         const id = Date.now().toString();
         const notification = document.createElement('div');
         notification.className = `notification notification-${type}`;
         
-        // Create notification elements
         const icon = this.createIcon(type);
         const content = this.createContent(message);
         const closeBtn = this.createCloseButton(id);
         const progress = this.createProgressBar(type);
         
-        // Assemble notification
         notification.appendChild(icon);
         notification.appendChild(content);
         notification.appendChild(closeBtn);
@@ -25,10 +21,8 @@ class NotificationSystem {
         
         this.container.appendChild(notification);
         
-        // Set removal timer
         setTimeout(() => this.remove(id), duration);
         
-        // Store notification reference
         this.notifications.set(id, {
             element: notification,
             duration
@@ -39,7 +33,6 @@ class NotificationSystem {
         return id;
     }
 
-    // Remove a notification
     remove(id) {
         const notification = this.notifications.get(id);
         if (notification) {
@@ -51,7 +44,6 @@ class NotificationSystem {
         }
     }
     
-    // Update progress bar
     updateProgress(id) {
         const notification = this.notifications.get(id);
         if (notification) {
@@ -72,7 +64,6 @@ class NotificationSystem {
         }
     }
 
-    // Helper methods for creating notification elements
     createIcon(type) {
         const icon = document.createElement('i');
         switch(type) {
@@ -96,7 +87,7 @@ class NotificationSystem {
     createContent(message) {
         const content = document.createElement('div');
         content.className = 'notification-content';
-        content.textContent = message;
+        content.innerHTML = message;
         return content;
     }
 
@@ -127,5 +118,4 @@ class NotificationSystem {
     }
 }
 
-// Initialize the notification system
 const notifications = new NotificationSystem();
