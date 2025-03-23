@@ -2,7 +2,7 @@
 
 Welcome to **JSTAR Tab**, the ultimate customizable new tab extension for your browser! Whether you're looking for a sleek, modern design or powerful personalization options, JSTAR Tab has you covered. 🚀  
 
-Transform your browsing experience with custom greetings, themes, shortcuts, and more. 🎉  
+Transform your browsing experience with custom greetings, themes, fonts, shortcuts, and more. 🎉  
 
 ## ✨ Features
 
@@ -20,8 +20,10 @@ Transform your browsing experience with custom greetings, themes, shortcuts, and
   - "{greeting}, {name}! Today is {date}"
   - "Happy {day}, {name}!"
 
-- **Customizable Themes**: Switch between light and dark modes to suit your mood. 🌗  
-- **Shortcut Management**: Add, edit, and remove shortcuts to your favorite websites.  
+- **Font Selection**: Choose from multiple fonts (Inter, Poppins, Roboto, Montserrat, Quicksand, and Comic Sans) to personalize your experience.
+- **Custom Background Images**: Upload and set your favorite images as your new tab background.
+- **Customizable Themes**: Switch between light and dark modes to suit your mood.
+- **Shortcut Management**: Add, edit, and remove shortcuts to your favorite websites with an improved grid layout system.
 - **Search Engine Selection**: Choose your preferred search engine for quick and efficient browsing.  
 - **Keyboard Shortcuts**: Set up custom keybinds for various actions:
   - Open settings
@@ -29,8 +31,7 @@ Transform your browsing experience with custom greetings, themes, shortcuts, and
   - Toggle anonymous mode
   - Change themes
   - Redirect to a specific URL (with a notification and "Redirecting to..." message)  
-
-- **Data Backup and Restore**: Export and import your settings and shortcuts effortlessly.  
+- **Data Backup and Restore**: Export and import your settings and shortcuts effortlessly.
 
 ## 🌐 Getting Started
 
@@ -54,20 +55,17 @@ Transform your browsing experience with custom greetings, themes, shortcuts, and
 ### **Greeting Formats**  
 Personalize your greeting with dynamic tags listed above. Example: "Good {greeting}, {name}! It's {time} on {day}!"  
 
-### **Themes**  
-Toggle between light and dark themes from the settings panel.  
+### **Themes & Fonts**  
+- Toggle between light and dark themes from the settings panel.  
+- Select from various font options to match your style.  
 
-### **Shortcuts**  
-Manage your favorite sites effortlessly:  
+### **Shortcuts & Backgrounds**  
 - Add shortcuts with the "+" button.  
 - Edit or delete shortcuts by right-clicking on them.  
+- Customize your background by uploading your favorite images.  
 
 ### **Keyboard Shortcuts**  
 Set up custom keybinds for quick actions like opening settings or switching themes.  
-
-## ❤️ Acknowledgments  
-
-Special thanks to **[Equa](https://github.com/EquaTechnologies)** for contributing amazing hover animations for shortcuts, settings, and the "Add Shortcut" button. Your work is truly appreciated! 🌟  
 
 ## 📄 License  
 
@@ -79,4 +77,4 @@ This project is licensed under the [MIT License](https://github.com/DevJSTAR/JST
 - **[Patreon](https://patreon.com/jstarsdev)**  
 - **[GitHub Releases](https://github.com/DevJSTAR/JSTAR-Tab/releases/latest)**  
 
-Thank you for choosing JSTAR Tab! We hope you enjoy the seamless and personalized browsing experience it brings. 🚀 
+Thank you for choosing JSTAR Tab! We hope you enjoy the seamless and personalized browsing experience it brings. 🚀
