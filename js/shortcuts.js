@@ -414,6 +414,12 @@ const shortcuts = {
                 if (passwordSettings) {
                     if (isEnabled) {
                         passwordSettings.classList.remove('hidden');
+                        const masterPasswordInput = document.getElementById('master-password');
+                        if (masterPasswordInput) {
+                            setTimeout(() => {
+                                masterPasswordInput.focus();
+                            }, 10);
+                        }
                     } else {
                         passwordSettings.classList.add('hidden');
                     }
@@ -432,10 +438,7 @@ const shortcuts = {
                         }
                     } else {
                         notifications.show('Password protection enabled!', 'success');
-                        
-                        setTimeout(() => {
-                            shortcuts.createShortcutProtectionManager();
-                        }, 10);
+                        shortcuts.createShortcutProtectionManager();
                     }
                 } else {
                     const currentShortcuts = Storage.get('shortcuts') || [];
@@ -476,13 +479,9 @@ const shortcuts = {
                             }
                             shortcuts.updateAddShortcutModal();
                             
-                            setTimeout(() => {
-                                shortcuts.createShortcutProtectionManager();
-                            }, 10);
+                            shortcuts.createShortcutProtectionManager();
                         } else {
-                            setTimeout(() => {
-                                shortcuts.createShortcutProtectionManager();
-                            }, 10);
+                            shortcuts.createShortcutProtectionManager();
                         }
                     } else {
                         notifications.show('Please enter a valid password!', 'error');

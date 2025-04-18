@@ -765,11 +765,9 @@ const settings = {
             });
 
             if (data.settings.passwordProtectionEnabled) {
-                setTimeout(() => {
-                    if (typeof shortcuts.createShortcutProtectionManager === 'function') {
-                        shortcuts.createShortcutProtectionManager();
-                    }
-                }, 100);
+                if (typeof shortcuts.createShortcutProtectionManager === 'function') {
+                    shortcuts.createShortcutProtectionManager();
+                }
             }
 
             Storage.set('shortcuts', data.shortcuts);

@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const MAX_IMAGE_SIZE_MB = 1.5;
+    const MAX_IMAGE_SIZE_MB = 5;
     const MAX_USER_BACKGROUNDS = 10;
 
     const backgroundUpload = document.getElementById('background-upload');
