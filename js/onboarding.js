@@ -293,6 +293,16 @@ const onboarding = {
             Storage.set(key, value);
         });
 
+        if (!Storage.get('keybinds')) {
+            Storage.set('keybinds', {
+                settings: { keys: 'Shift+S' },
+                anonymous: { keys: 'Shift+X' },
+                theme: { keys: 'Shift+T' },
+                history: { keys: 'Shift+H' },
+                url: { keys: 'Shift+Q', url: '' }
+            });
+        }
+
         Storage.set('onboardingComplete', true);
         
         setTimeout(() => {

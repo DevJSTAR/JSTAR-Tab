@@ -4,6 +4,7 @@ const defaultSettings = {
     anonymousMode: false,
     searchEngine: 'Google',
     updateAlerts: true,
+    motionPreference: 'default',
     show_greeting: true,
     show_search: true,
     show_shortcuts: true,
@@ -43,6 +44,13 @@ const defaultSettings = {
         '--toggle-bg': '#333333',
         '--toggle-bg-active': 'var(--text)',
         '--toggle-knob': 'var(--background)'
+    },
+    keybinds: {
+        settings: { keys: 'Shift+S' },
+        anonymous: { keys: 'Shift+X' },
+        theme: { keys: 'Shift+T' },
+        history: { keys: 'Shift+H' },
+        url: { keys: 'Shift+Q', url: '' }
     }
 };
 
@@ -81,20 +89,93 @@ document.addEventListener('DOMContentLoaded', () => {
         updateAlerts !== false;
 });
 
+const updateIconStyle = (style) => {
+    const icons = document.querySelectorAll('svg use');
+    icons.forEach(icon => {
+        const iconId = icon.getAttribute('href').substring(1);
+        let newIconId;
+
+        if (style === 'solid') {
+            if (iconId.endsWith('-solid')) {
+                newIconId = iconId;
+            } else {
+                newIconId = `${iconId}-solid`;
+            }
+        } else {
+            newIconId = iconId.endsWith('-solid') ? iconId.slice(0, -6) : iconId;
+        }
+
+        icon.setAttribute('href', `#${newIconId}`);
+    });
+};
+
+const savedIconStyle = Storage.get('iconStyle') || 'linear';
+document.getElementById('icon-style-select').value = savedIconStyle;
+updateIconStyle(savedIconStyle);
+
+document.getElementById('icon-style-select').addEventListener('change', (event) => {
+    const selectedStyle = event.target.value;
+    Storage.set('iconStyle', selectedStyle);
+    updateIconStyle(selectedStyle);
+});
+
+const savedMotionPreference = Storage.get('motionPreference') || 'default';
+document.getElementById('motion-preference-select').value = savedMotionPreference;
+updateMotionPreference(savedMotionPreference);
+
+document.getElementById('motion-preference-select').addEventListener('change', (event) => {
+    const selectedPreference = event.target.value;
+    Storage.set('motionPreference', selectedPreference);
+    updateMotionPreference(selectedPreference);
+    notifications.show(`Motion preference updated to ${selectedPreference}!`, 'success');
+});
+
+function updateMotionPreference(preference) {
+    document.body.classList.remove('subtle-motion', 'reduced-motion', 'minimal-motion', 'no-motion');
+    
+    switch(preference) {
+        case 'subtle':
+            document.body.classList.add('subtle-motion');
+            break;
+        case 'reduced':
+            document.body.classList.add('reduced-motion');
+            break;
+        case 'minimal':
+            document.body.classList.add('minimal-motion');
+            break;
+        case 'disabled':
+            document.body.classList.add('no-motion');
+            break;
+    }
+}
+
 const settings = {
     GREETING_MAX_LENGTH: 60,
 
     toggleTheme: () => {
         const currentTheme = document.body.getAttribute('data-theme');
         const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+        
+        const motionPreference = Storage.get('motionPreference') || 'default';
+        if (motionPreference !== 'default') {
+            document.body.classList.add('instant-theme-change');
+        }
+        
         document.body.setAttribute('data-theme', newTheme);
         Storage.set('theme', newTheme);
         
+        const iconStyle = Storage.get('iconStyle') || 'linear';
         const themeIcon = document.querySelector('#toggle-theme svg use');
-        const lightModeIcon = newTheme === 'dark' ? 'dark-mode' : 'light-mode';
-        const darkModeIcon = newTheme === 'dark' ? 'light-mode' : 'dark-mode';
+        const lightModeIcon = iconStyle === 'solid' ? 'icon-light-mode-solid' : 'icon-light-mode';
+        const darkModeIcon = iconStyle === 'solid' ? 'icon-dark-mode-solid' : 'icon-dark-mode';
     
-        themeIcon.setAttribute('href', `#icon-${newTheme === 'dark' ? darkModeIcon : lightModeIcon}`);
+        themeIcon.setAttribute('href', `#${newTheme === 'dark' ? lightModeIcon : darkModeIcon}`);
+        
+        if (motionPreference !== 'default') {
+            setTimeout(() => {
+                document.body.classList.remove('instant-theme-change');
+            }, 50);
+        }
     },
     
 
@@ -304,9 +385,29 @@ const settings = {
         fontSizeSlider.addEventListener('input', (e) => updateFontSize(e.target.value));
         fontSizeNumber.addEventListener('change', (e) => updateFontSize(e.target.value));
         
-        resetFontSize.addEventListener('click', settings.resetTypography);
-        resetLightColors.addEventListener('click', () => settings.resetColors('light'));
-        resetDarkColors.addEventListener('click', () => settings.resetColors('dark'));
+        resetFontSize.addEventListener('click', () => {
+            shortcuts.showConfirmDialog(
+                'Reset Typography',
+                'Are you sure you want to reset font settings to default?',
+                settings.resetTypography
+            );
+        });
+        
+        resetLightColors.addEventListener('click', () => {
+            shortcuts.showConfirmDialog(
+                'Reset Light Colors',
+                'Are you sure you want to reset light mode colors to default?',
+                () => settings.resetColors('light')
+            );
+        });
+        
+        resetDarkColors.addEventListener('click', () => {
+            shortcuts.showConfirmDialog(
+                'Reset Dark Colors',
+                'Are you sure you want to reset dark mode colors to default?',
+                () => settings.resetColors('dark')
+            );
+        });
         
         settings.initColorSettings();
         
@@ -316,9 +417,10 @@ const settings = {
         const savedTheme = Storage.get('theme') || 'light';
         document.body.setAttribute('data-theme', savedTheme);
 
+        const iconStyle = Storage.get('iconStyle') || 'linear';
         const themeIcon = document.querySelector('#toggle-theme svg use');
-        const lightModeIcon = 'light-mode';
-        const darkModeIcon = 'dark-mode';
+        const lightModeIcon = iconStyle === 'solid' ? 'light-mode-solid' : 'light-mode';
+        const darkModeIcon = iconStyle === 'solid' ? 'dark-mode-solid' : 'dark-mode';
 
         themeIcon.setAttribute('href', `#icon-${savedTheme === 'dark' ? darkModeIcon : lightModeIcon}`);
         
@@ -369,11 +471,13 @@ const settings = {
         const userName = Storage.get('userName') || '';
         const isAnonymous = Storage.get('anonymousMode') || false;
         const currentEngine = Storage.get('searchEngine') || 'google';
+        const masterPassword = Storage.get('masterPassword') || '';
         
         document.getElementById('settings-name').value = userName;
         document.getElementById('toggle-anonymous').checked = isAnonymous;
         document.getElementById('search-engine-select').value = currentEngine;
         document.getElementById('toggle-update-alerts').checked = updateAlerts;
+        document.getElementById('master-password').value = masterPassword;
 
         ['greeting', 'search', 'shortcuts', 'addShortcut'].forEach(element => {
             const isVisible = Storage.get(`show_${element}`);
@@ -392,6 +496,7 @@ const settings = {
         document.getElementById('font-family-select').value = fontFamily;
         document.getElementById('font-size-slider').value = fontSize;
         document.getElementById('font-size-number').value = fontSize;
+		document.getElementById('motion-preference-select').value = Storage.get('motionPreference') || 'default';
     },
 
     formatGreeting: (format) => {
@@ -450,6 +555,11 @@ const settings = {
 
     exportData: () => {
         try {
+            let masterPassword = Storage.get('masterPassword') || '';
+            if (masterPassword) {
+                masterPassword = btoa(masterPassword);
+            }
+
             const data = {
                 settings: {
                     theme: Storage.get('theme') || defaultSettings.theme,
@@ -459,6 +569,11 @@ const settings = {
                     searchEngine: Storage.get('searchEngine') || 'Google',
                     customGreeting: Storage.get('customGreeting') || '',
                     updateAlerts: Storage.get('updateAlerts') !== false,
+                    iconStyle: Storage.get('iconStyle') || 'linear',
+                    motionPreference: Storage.get('motionPreference') || 'default',
+                    
+                    passwordProtectionEnabled: Storage.get('passwordProtectionEnabled') || false,
+                    masterPassword: masterPassword,
                     
                     fontFamily: Storage.get('fontFamily') || defaultSettings.fontFamily,
                     fontSize: Storage.get('fontSize') || defaultSettings.fontSize,
@@ -649,6 +764,14 @@ const settings = {
                 }
             });
 
+            if (data.settings.passwordProtectionEnabled) {
+                setTimeout(() => {
+                    if (typeof shortcuts.createShortcutProtectionManager === 'function') {
+                        shortcuts.createShortcutProtectionManager();
+                    }
+                }, 100);
+            }
+
             Storage.set('shortcuts', data.shortcuts);
 
             const validatedKeybinds = {};
@@ -678,6 +801,8 @@ const settings = {
                 settings.initColorSettings();
             }
             
+            updateIconStyle(data.settings.iconStyle || 'linear');
+            
             if (data.settings.fontFamily) {
                 document.documentElement.style.setProperty('--font-family', data.settings.fontFamily);
             }
@@ -701,6 +826,18 @@ const settings = {
                 Storage.remove('customBackground');
             }
 
+			let masterPassword = data.settings.masterPassword || '';
+            if (masterPassword) {
+                try {
+                    masterPassword = atob(masterPassword);
+				    Storage.set('masterPassword', masterPassword);
+                    settings.updateSettingsUI();
+                } catch (e) {
+                    console.error('Error decoding master password:', e);
+                    notifications.show('Failed to decode master password!', 'error');
+                }
+            }
+
             notifications.show('Data imported successfully!', 'success');
         } catch (error) {
             notifications.show('Failed to import data: Invalid file format!', 'error');
@@ -709,50 +846,27 @@ const settings = {
     },
 
     resetData: () => {
-        Object.entries(defaultSettings).forEach(([key, value]) => {
-            Storage.set(key, value);
-        });
-
-        Storage.remove('shortcuts');
-        Storage.remove('keybinds');
-        Storage.remove('anonymousName');
-        Storage.remove('customGreeting');
-        
-        if (typeof GridLayout !== 'undefined') {
-            if (GridLayout.reset) {
-                GridLayout.reset();
-            } else if (GridLayout.defaults) {
-                Storage.set('gridLayout', GridLayout.defaults);
-                if (GridLayout.init) {
+        shortcuts.showConfirmDialog(
+            'Reset All Data',
+            'Are you sure you want to reset all data? This action cannot be undone.',
+            () => {
+                try {
+                    Storage.remove('customGreeting');
+                    Storage.clear();
+                    
+                    Storage.set('keybinds', defaultSettings.keybinds);
+                    
+                    closeModal(document.getElementById('settings-modal'));
+                    notifications.show('All data has been reset!', 'success');
                     setTimeout(() => {
-                        GridLayout.init();
-                    }, 100);
+                        window.location.reload();
+                    }, 1000);
+                } catch (error) {
+                    notifications.show('Failed to reset data!', 'error');
+                    console.error('Reset error:', error);
                 }
-            } else {
-                Storage.remove('gridLayout');
             }
-        } else {
-            Storage.remove('gridLayout');
-        }
-        
-        if (typeof GridLayout === 'undefined' || !GridLayout.reset) {
-            const defaultVisibility = {
-                showGreeting: true,
-                showSearch: true,
-                showShortcuts: true,
-                showAddButton: true,
-                showGrid: true
-            };
-            Storage.set('visibility', defaultVisibility);
-        }
-
-        settings.updateSettingsUI();
-        settings.updateVisibility();
-        settings.updateTypography();
-        shortcuts.render();
-        document.body.setAttribute('data-theme', 'light');
-        
-        notifications.show('All data has been reset!', 'success');
+        );
     },
 
     updateTypography: () => {
@@ -911,22 +1025,27 @@ settings.initDataManagement = () => {
     });
 
     resetBtn.addEventListener('click', () => {
-        const confirmReset = confirm('Are you sure you want to reset all data? This action cannot be undone.');
-        
-        if (confirmReset) {
-            try {
-                Storage.remove('customGreeting');
-                Storage.clear();
-                closeModal(document.getElementById('settings-modal'));
-                notifications.show('All data has been reset!', 'success');
-                setTimeout(() => {
-                    window.location.reload();
-                }, 1000);
-            } catch (error) {
-                notifications.show('Failed to reset data!', 'error');
-                console.error('Reset error:', error);
+        shortcuts.showConfirmDialog(
+            'Reset All Data',
+            'Are you sure you want to reset all data? This action cannot be undone.',
+            () => {
+                try {
+                    Storage.remove('customGreeting');
+                    Storage.clear();
+                    
+                    Storage.set('keybinds', defaultSettings.keybinds);
+                    
+                    closeModal(document.getElementById('settings-modal'));
+                    notifications.show('All data has been reset!', 'success');
+                    setTimeout(() => {
+                        window.location.reload();
+                    }, 1000);
+                } catch (error) {
+                    notifications.show('Failed to reset data!', 'error');
+                    console.error('Reset error:', error);
+                }
             }
-        }
+        );
     });
 };
 
@@ -942,6 +1061,8 @@ function initCustomSelects() {
             
         if (nativeSelect.id === 'search-engine-select') {
             nativeSelect.value = Storage.get('searchEngine') || 'google';
+        } else if (nativeSelect.id === 'icon-style-select') {
+            nativeSelect.value = Storage.get('iconStyle') || 'linear';
         } else if (nativeSelect.id === 'font-family-select') {
             nativeSelect.value = Storage.get('fontFamily') || 'Inter';
             selectedDiv.style.fontFamily = nativeSelect.value;

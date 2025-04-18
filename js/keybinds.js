@@ -11,12 +11,19 @@ const keybinds = {
     init() {
         this.bindings = Storage.get('keybinds') || {};
         
+        this.setupDefaultKeybinds();
+        
         const urlInput = document.getElementById('keybind-url');
         const urlComboInput = document.getElementById('keybind-url-combo');
+        const historyComboInput = document.getElementById('keybind-history-combo');
 
         if (this.bindings.url) {
             urlInput.value = this.bindings.url.url || '';
             urlComboInput.value = this.bindings.url.keys || '';
+        }
+        
+        if (this.bindings.history && historyComboInput) {
+            historyComboInput.value = this.bindings.history.keys || '';
         }
 
         let lastSavedUrl = urlInput.value;
@@ -184,7 +191,7 @@ const keybinds = {
         });
 
         document.addEventListener('keydown', (e) => {
-            if (e.target.tagName === 'INPUT') return;
+            if (e.target.tagName === 'INPUT' || !Storage.get('onboardingComplete')) return;
 
             const keys = [];
             if (e.altKey) keys.push('Alt');
@@ -201,10 +208,44 @@ const keybinds = {
             });
         });
     },
+    
+    setupDefaultKeybinds() {
+        const defaultBindings = {
+            settings: { keys: 'Shift+S' },
+            anonymous: { keys: 'Shift+X' },
+            theme: { keys: 'Shift+T' },
+            history: { keys: 'Shift+H' },
+            url: { keys: 'Shift+Q', url: '' }
+        };
+        
+        Object.entries(defaultBindings).forEach(([action, binding]) => {
+            if (!this.bindings[action]) {
+                this.bindings[action] = binding;
+            }
+        });
+        
+        Storage.set('keybinds', this.bindings);
+    },
 
     executeAction(action, binding) {
+        if (!Storage.get('onboardingComplete')) return;
+        
         const settingsPage = document.getElementById('settings-page');
-        if (settingsPage.classList.contains('active')) {
+        const passwordDialog = document.getElementById('password-dialog');
+        
+        if (passwordDialog && !passwordDialog.classList.contains('hidden')) {
+            const cancelBtn = document.getElementById('cancel-password');
+            if (cancelBtn) {
+                cancelBtn.click();
+            } else {
+                passwordDialog.classList.remove('active');
+                setTimeout(() => {
+                    passwordDialog.classList.add('hidden');
+                }, 300);
+            }
+        }
+        
+        if (action === 'settings' && settingsPage.classList.contains('active')) {
             settingsPage.classList.remove('active');
             setTimeout(() => {
                 settingsPage.classList.add('hidden');
@@ -216,50 +257,55 @@ const keybinds = {
         switch (action) {
             case 'settings':
                 if (settingsPage.classList.contains('hidden')) {
-                    notifications.show('Opening settings.', 'info');
                     settings.updateSettingsUI();
                     settingsPage.classList.remove('hidden');
                     setTimeout(() => {
                         settingsPage.classList.add('active');
                     }, 10);
                 } else {
-                    notifications.show('Settings closed.', 'info');
                     settings.updateSettingsUI();
                 }
                 break;
             case 'add-shortcut':
                 const currentShortcuts = Storage.get('shortcuts') || [];
                 if (currentShortcuts.length >= shortcuts.MAX_SHORTCUTS) {
-                    notifications.show('Maximum shortcuts limit reached!', 'error');
                     return;
                 }
                 
                 const shortcutModal = document.getElementById('add-shortcut-modal');
                 if (shortcutModal === activeModal) {
-                    notifications.show('Add shortcut menu closed.', 'info');
+                    closeModal(shortcutModal);
                 } else {
-                    notifications.show('Opening add shortcut menu.', 'info');
                     openModal(shortcutModal);
                 }
                 break;
             case 'anonymous':
-                settings.toggleAnonymousMode();
+                const isAnonymous = Storage.get('anonymousMode') || false;
+                Storage.set('anonymousMode', !isAnonymous);
+                
+                if (!isAnonymous) {
+                    const randomName = anonymousNames.generate();
+                    Storage.set('anonymousName', randomName);
+                } else {
+                    Storage.remove('anonymousName');
+                }
+                
+                shortcuts.render();
+                updateGreeting();
                 break;
             case 'theme':
                 settings.toggleTheme();
+                break;
+            case 'history':
+                window.location.href = 'history.html';
                 break;
             case 'url':
                 if (binding.url) {
                     const url = binding.url;
                     const fullUrl = url.startsWith('http://') || url.startsWith('https://') ? 
                         url : `https://${url}`;
-                        
-                    notifications.show(`Redirecting to ${url}...`, 'info');
-                    setTimeout(() => {
-                        window.location.href = fullUrl;
-                    }, 1000);
-                } else {
-                    notifications.show('No URL set for this keybind.', 'error');
+                    
+                    window.location.href = fullUrl;
                 }
                 break;
         }

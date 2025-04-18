@@ -220,8 +220,12 @@
                         <span>Personalization</span>
                     </a>
                     <a href="#appearance" class="settings-nav-item" data-section="appearance">
-                        <svg><use href="#icon-sparkle"/></svg>
+                        <svg><use href="#icon-paint"/></svg>
                         <span>Appearance</span>
+                    </a>
+                    <a href="#privacy" class="settings-nav-item" data-section="privacy">
+                        <svg><use href="#icon-lock"/></svg>
+                        <span>Privacy</span>
                     </a>
                     <a href="#search" class="settings-nav-item" data-section="search">
                         <svg><use href="#icon-search"/></svg>
@@ -292,6 +296,28 @@
                             <span class="format-hint">Available variables: {name}, {greeting}, {time}, {date}, {day}, {month}, {year}</span>
                         </div>
                     </div>
+
+                    <div class="settings-card">
+                        <div class="settings-card-header">
+                            <div class="settings-card-icon">
+                                <svg><use href="#icon-bell"/></svg>
+                            </div>
+                            <div class="settings-card-title">
+                                <h4>Notifications</h4>
+                                <p>Configure update notifications and alerts</p>
+                            </div>
+                        </div>
+                        <div class="setting-item horizontal">
+                            <div>
+                                <div class="setting-label">Update Alerts</div>
+                                <div class="setting-description">Get notified when new updates are available</div>
+                            </div>
+                            <label class="toggle">
+                                <input type="checkbox" id="toggle-update-alerts" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                    </div>
                 </div>
 
                 <div id="appearance" class="settings-section">
@@ -315,7 +341,29 @@
                                 <svg><use href="#icon-light-mode"/></svg>
                             </button>
                         </div>
-                        <!-- Icon style setting used to be here (will be added in full release) -->
+                        <div class="setting-item">
+                            <div class="setting-label">Icon Style</div>
+                            <div class="setting-description">Choose between linear or solid icon styles</div>
+                            <div class="custom-select">
+                                <select id="icon-style-select">
+                                    <option value="linear" class="icon-style-linear">Linear</option>
+                                    <option value="solid" class="icon-style-solid">Solid</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="setting-item">
+                            <div class="setting-label">Motion Preference</div>
+                            <div class="setting-description">Control how animations and transitions appear</div>
+                            <div class="custom-select">
+                                <select id="motion-preference-select">
+                                    <option value="default">Default Animations</option>
+                                    <option value="subtle">Subtle Animations</option>
+                                    <option value="reduced">Reduced Motion</option>
+                                    <option value="minimal">Minimal Motion</option>
+                                    <option value="disabled">No Animations</option>
+                                </select>
+                            </div>
+                        </div>
                     </div>
 
                     <div class="settings-card">
@@ -455,28 +503,6 @@
                     <div class="settings-card">
                         <div class="settings-card-header">
                             <div class="settings-card-icon">
-                                <svg><use href="#icon-bell"/></svg>
-                            </div>
-                            <div class="settings-card-title">
-                                <h4>Notifications</h4>
-                                <p>Configure update notifications and alerts</p>
-                            </div>
-                        </div>
-                        <div class="setting-item horizontal">
-                            <div>
-                                <div class="setting-label">Update Alerts</div>
-                                <div class="setting-description">Get notified when new updates are available</div>
-                            </div>
-                            <label class="toggle">
-                                <input type="checkbox" id="toggle-update-alerts" checked>
-                                <span class="toggle-slider"></span>
-                            </label>
-                        </div>
-                    </div>
-
-                    <div class="settings-card">
-                        <div class="settings-card-header">
-                            <div class="settings-card-icon">
                                 <svg><use href="#icon-light-mode"/></svg>
                             </div>
                             <div class="settings-card-title">
@@ -556,13 +582,6 @@
                             </div>
                         </div>
                         <div class="setting-item">
-                            <div class="setting-label">Add Shortcut</div>
-                            <div class="keybind-container">
-                                <input type="text" id="keybind-add-shortcut" placeholder="Press keys..." readonly>
-                                <button class="clear-keybind" data-for="add-shortcut">×</button>
-                            </div>
-                        </div>
-                        <div class="setting-item">
                             <div class="setting-label">Toggle Anonymous Mode</div>
                             <div class="keybind-container">
                                 <input type="text" id="keybind-anonymous" placeholder="Press keys..." readonly>
@@ -577,12 +596,62 @@
                             </div>
                         </div>
                         <div class="setting-item">
+                            <div class="setting-label">History Page</div>
+                            <div class="keybind-container">
+                                <input type="text" id="keybind-history" placeholder="Press keys..." readonly>
+                                <button class="clear-keybind" data-for="history">×</button>
+                            </div>
+                        </div>
+                        <div class="setting-item">
                             <div class="setting-label">Quick URL</div>
                             <div class="keybind-container">
                                 <input type="text" id="keybind-url-combo" placeholder="Press keys..." readonly>
                                 <button class="clear-keybind" data-for="url">×</button>
                             </div>
                             <input type="text" id="keybind-url" placeholder="Enter URL">
+                        </div>
+                    </div>
+                </div>
+
+                <div id="privacy" class="settings-section">
+                    <h3>Privacy</h3>
+                    <div class="settings-card">
+                        <div class="settings-card-header">
+                            <div class="settings-card-icon">
+                                <svg><use href="#icon-lock"/></svg>
+                            </div>
+                            <div class="settings-card-title">
+                                <h4>Privacy Settings</h4>
+                                <p>Control privacy and security features</p>
+                            </div>
+                        </div>
+                        <div class="setting-item horizontal">
+                            <div>
+                                <div class="setting-label">Anonymous Mode</div>
+                                <div class="setting-description">Hide your real name and use a randomly generated one</div>
+                            </div>
+                            <label class="toggle">
+                                <input type="checkbox" id="toggle-anonymous-privacy">
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                        <div class="setting-item horizontal">
+                            <div>
+                                <div class="setting-label">Password Protected Shortcuts</div>
+                                <div class="setting-description">Add password protection to specific shortcuts</div>
+                            </div>
+                            <label class="toggle">
+                                <input type="checkbox" id="toggle-shortcuts-password">
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                        <div id="password-protection-settings" class="setting-item hidden">
+                            <div class="setting-label">Master Password</div>
+                            <div class="setting-description">Set a master password for your protected shortcuts</div>
+                            <div class="input-group">
+                                <input type="password" id="master-password" placeholder="Enter master password">
+                            </div>
+                            <button id="save-master-password" class="btn-primary">Save Password</button>
                         </div>
                     </div>
                 </div>
@@ -707,6 +776,56 @@
         </div>
     </div>
 
+    <!-- Confirmation Dialog -->
+    <div id="confirmation-dialog" class="modal hidden">
+        <div class="modal-backdrop"></div>
+        <div class="modal-content confirmation-dialog">
+            <div class="confirmation-icon">
+                <svg><use href="#icon-alert-triangle"/></svg>
+            </div>
+            <div class="confirmation-content">
+                <h3 id="confirmation-title">Confirm Action</h3>
+                <p id="confirmation-message">Are you sure you want to proceed with this action?</p>
+            </div>
+            <div class="modal-actions">
+                <button id="confirm-action" class="btn-primary btn-danger">Confirm</button>
+                <button id="cancel-action" class="btn-primary">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Password Dialog -->
+    <div id="password-dialog" class="modal hidden">
+        <div class="modal-backdrop"></div>
+        <div class="modal-content confirmation-dialog">
+            <div class="confirmation-icon lock-icon">
+                <svg><use href="#icon-lock"/></svg>
+            </div>
+            <div class="confirmation-content">
+                <h3>Password Required</h3>
+                <p>This shortcut is password protected. Please enter the password to continue.</p>
+                <div class="secrecy-note">
+                    <img src="images/secrecy.png" alt="Secrecy">
+                    <div>
+                        Try <a href="https://github.com/DevJSTAR/Secrecy/releases/latest" target="_blank">Secrecy</a> for full browser password protection. 
+                        JSTAR Tab only protects shortcuts within this page.
+                    </div>
+                </div>
+                <div class="password-input-container">
+                    <input type="password" id="shortcut-password" placeholder="Enter password">
+                </div>
+                <div id="password-error" class="password-error hidden">Incorrect password. Please try again.</div>
+            </div>
+            <div class="modal-actions">
+                <button id="submit-password" class="btn-primary">Submit</button>
+                <button id="cancel-password" class="btn-primary">Cancel</button>
+            </div>
+            <button id="close-password-dialog" class="dialog-close">
+                <svg><use href="#icon-close"/></svg>
+            </button>
+        </div>
+    </div>
+
     <!-- Notification Container -->
     <div id="notification-container"></div>
 
@@ -730,18 +849,21 @@
             <line x1="19" y1="12" x2="5" y2="12"/>
             <polyline points="12 19 5 12 12 5"/>
         </symbol>
-
-        <!-- Arrow Right Icon -->
-        <symbol id="icon-arrow-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <line x1="5" y1="12" x2="19" y2="12"/>
-            <polyline points="12 5 19 12 12 19"/>
-        </symbol>
         
         <!-- Image/Background Icon -->
         <symbol id="icon-image" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
             <circle cx="8.5" cy="8.5" r="1.5"/>
             <polyline points="21 15 16 10 5 21"/>
+        </symbol>
+
+        <!-- Theme/Appearance Icon -->
+        <symbol id="icon-palette" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"/>
+            <circle cx="12" cy="12" r="4"/>
+            <line x1="21.17" y1="8" x2="12" y2="8"/>
+            <line x1="3.95" y1="6.06" x2="8.54" y2="14"/>
+            <line x1="10.88" y1="21.94" x2="15.46" y2="14"/>
         </symbol>
 
         <!-- Database Icon -->
@@ -787,24 +909,6 @@
         <symbol id="icon-plus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <line x1="12" y1="5" x2="12" y2="19"/>
             <line x1="5" y1="12" x2="19" y2="12"/>
-        </symbol>
-
-        <!-- Text Icon-->
-        <symbol id="icon-text" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M4 7V4h16v3"/>
-            <path d="M9 20h6"/>
-            <path d="M12 4v16"/>
-        </symbol>
-
-        <!-- User Icon -->
-        <symbol id="icon-user" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
-            <circle cx="12" cy="7" r="4"/>
-        </symbol>
-
-        <!-- Sparkle Icon -->
-        <symbol id="icon-sparkle" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M12 3l1.88 5.79a2 2 0 0 0 1.33 1.33L21 12l-5.79 1.88a2 2 0 0 0-1.33 1.33L12 21l-1.88-5.79a2 2 0 0 0-1.33-1.33L3 12l5.79-1.88a2 2 0 0 0 1.33-1.33L12 3z"/>
         </symbol>
 
         <!-- Settings Icon -->
@@ -876,10 +980,205 @@
             <line x1="12" y1="8" x2="12.01" y2="8"/>
         </symbol>    
 
+        <!-- Paint Brush Icon -->
+        <symbol id="icon-paint" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 3l1.88 5.79a2 2 0 0 0 1.33 1.33L21 12l-5.79 1.88a2 2 0 0 0-1.33 1.33L12 21l-1.88-5.79a2 2 0 0 0-1.33-1.33L3 12l5.79-1.88a2 2 0 0 0 1.33-1.33L12 3z"/>
+        </symbol>
+
         <!-- Shortcuts Icon -->
         <symbol id="icon-shortcuts" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M18 3a3 3 0 0 0-3 3v12a3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3H6a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3V6a3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3h12a3 3 0 0 0 3-3 3 3 0 0 0-3-3z"/>
         </symbol>    
+
+        <!-- Grid Icon -->
+        <symbol id="icon-grid" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+            <line x1="3" y1="9" x2="21" y2="9"/>
+            <line x1="9" y1="21" x2="9" y2="9"/>
+        </symbol>
+
+        <!-- Alert Triangle Icon -->
+        <symbol id="icon-alert-triangle" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+            <line x1="12" y1="9" x2="12" y2="13"/>
+            <line x1="12" y1="17" x2="12.01" y2="17"/>
+        </symbol>
+        
+        <!-- Lock Icon -->
+        <symbol id="icon-lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+        </symbol>
+    </svg>
+
+    <!-- SVG Definitions (Solid Icons) -->
+    <svg xmlns="http://www.w3.org/2000/svg" style="display:none;">
+        <!-- Image/Background Icon Solid -->
+        <symbol id="icon-image-solid" viewBox="0 0 24 24">
+            <path fill="currentColor" d="M19 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2zm-7 12.5L8.5 12 5 17h14l-4.5-6-2.5 4.5z"/>
+            <circle fill="currentColor" cx="8.5" cy="8.5" r="1.5"/>
+        </symbol>
+
+        <!-- Theme/Appearance Icon Solid -->
+        <symbol id="icon-palette-solid" viewBox="0 0 24 24">
+            <path fill="currentColor" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/>
+            <circle fill="currentColor" cx="12" cy="12" r="4"/>
+            <path fill="currentColor" d="M21.17 8h-9.17M3.95 6.06l4.59 7.94M10.88 21.94l4.58-7.94"/>
+        </symbol>
+
+        <!-- Database Icon Solid -->
+        <symbol id="icon-database-solid" viewBox="0 0 24 24">
+            <path fill="currentColor" d="M12 2C6 2 3 3.34 3 5v14c0 1.66 3 3 9 3s9-1.34 9-3V5c0-1.66-3-3-9-3zm0 3c4.42 0 7 .84 7 1.5S16.42 8 12 8s-7-.84-7-1.5S7.58 5 12 5zm0 14c-4.42 0-7-.84-7-1.5V15c1.49.66 4.18 1 7 1s5.51-.34 7-1v2.5c0 .66-2.58 1.5-7 1.5zm0-6c-4.42 0-7-.84-7-1.5V9c1.49.66 4.18 1 7 1s5.51-.34 7-1v2.5c0 .66-2.58 1.5-7 1.5zm0-6c-4.42 0-7-.84-7-1.5V9c1.49.66 4.18 1 7 1s5.51-.34 7-1v2.5c0 .66-2.58 1.5-7 1.5z"/>
+        </symbol>
+
+        <!-- Chevron Down Icon Solid -->
+        <symbol id="icon-chevron-down-solid" viewBox="0 0 24 24">
+            <path fill="currentColor" d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/>
+        </symbol>
+
+        <!-- External Link Icon Solid -->
+        <symbol id="icon-external-link-solid" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+            <polyline points="15 3 21 3 21 9"/>
+            <line x1="10" y1="14" x2="21" y2="3"/>
+        </symbol>
+
+        <!-- Edit Icon Solid -->
+        <symbol id="icon-edit-solid" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+            <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+        </symbol>
+
+        <!-- Delete Icon Solid -->
+        <symbol id="icon-delete-solid" viewBox="0 0 24 24">
+            <path fill="currentColor" d="M3 6h18v0h-18z"/>
+            <path fill="currentColor" d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+            <path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M10 11v6M14 11v6"/>
+        </symbol>
+
+        <!-- Import Icon Solid -->
+        <symbol id="icon-import-solid" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+            <polyline points="7 10 12 15 17 10"/>
+            <line x1="12" y1="15" x2="12" y2="3"/>
+        </symbol>
+
+        <!-- Export Icon Solid -->
+        <symbol id="icon-export-solid" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+            <polyline points="7 10 12 5 17 10"/>
+            <line x1="12" y1="5" x2="12" y2="15"/>
+        </symbol>
+
+        <!-- Search Icon Solid -->
+        <symbol id="icon-search-solid" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"/>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+        </symbol>
+
+        <!-- Plus Icon Solid -->
+        <symbol id="icon-plus-solid" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="12" y1="5" x2="12" y2="19"/>
+            <line x1="5" y1="12" x2="19" y2="12"/>
+        </symbol>
+
+        <!-- Settings Icon Solid -->
+        <symbol id="icon-settings-solid" viewBox="0 0 24 24">
+            <path fill="currentColor" d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+            <circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="2"/>
+        </symbol>
+
+        <!-- Light Mode (Sun) Icon Solid -->
+        <symbol id="icon-light-mode-solid" viewBox="0 0 24 24">
+            <circle cx="12" cy="12" r="5" fill="currentColor"/>
+            <line x1="12" y1="1" x2="12" y2="3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <line x1="12" y1="21" x2="12" y2="23" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <line x1="1" y1="12" x2="3" y2="12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <line x1="21" y1="12" x2="23" y2="12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </symbol>
+
+        <!-- Dark Mode (Moon) Icon Solid -->
+        <symbol id="icon-dark-mode-solid" viewBox="0 0 24 24">
+            <path fill="currentColor" d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        </symbol>
+
+        <!-- Close/X Icon Solid -->
+        <symbol id="icon-close-solid" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"/>
+            <line x1="6" y1="6" x2="18" y2="18"/>
+        </symbol>  
+
+        <!-- Message Icon Solid -->
+        <symbol id="icon-message-solid" viewBox="0 0 24 24">
+            <path fill="currentColor" d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+        </symbol>
+
+        <!-- Layout Icon Solid -->
+        <symbol id="icon-layout-solid" viewBox="0 0 24 24">
+            <path fill="currentColor" d="M19 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2zm0 6H9v12H5V5h14v4z"/>
+        </symbol>
+
+        <!-- Bell Icon Solid -->
+        <symbol id="icon-bell-solid" viewBox="0 0 24 24">
+            <path fill="currentColor" d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9zm-4.27 13a2 2 0 0 1-3.46 0"/>
+        </symbol>
+
+        <!-- Sparkle Icon -->
+        <symbol id="icon-sparkle" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 3l1.88 5.79a2 2 0 0 0 1.33 1.33L21 12l-5.79 1.88a2 2 0 0 0-1.33 1.33L12 21l-1.88-5.79a2 2 0 0 0-1.33-1.33L3 12l5.79-1.88a2 2 0 0 0 1.33-1.33L12 3z"/>
+        </symbol>
+
+        <symbol id="icon-sparkle-solid" viewBox="0 0 24 24">
+            <path fill="currentColor" d="M12 3l1.88 5.79a2 2 0 0 0 1.33 1.33L21 12l-5.79 1.88a2 2 0 0 0-1.33 1.33L12 21l-1.88-5.79a2 2 0 0 0-1.33-1.33L3 12l5.79-1.88a2 2 0 0 0 1.33-1.33L12 3z"/>
+        </symbol>
+
+        <!-- User Icon -->
+        <symbol id="icon-user" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+            <circle cx="12" cy="7" r="4"/>
+        </symbol>
+
+        <symbol id="icon-user-solid" viewBox="0 0 24 24">
+            <path fill="currentColor" d="M12 3a4 4 0 1 0 0 8 4 4 0 0 0 0-8zm0 10c-4.42 0-8 3.58-8 8v1h16v-1c0-4.42-3.58-8-8-8z"/>
+        </symbol>
+
+        <!-- SVG Definitions -->
+        <symbol id="icon-text" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 7V4h16v3"/>
+            <path d="M9 20h6"/>
+            <path d="M12 4v16"/>
+        </symbol>
+
+        <symbol id="icon-text-solid" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 7V4h16v3"/>
+            <path d="M9 20h6"/>
+            <path d="M12 4v16"/>
+        </symbol>
+
+        <!-- Arrow Right Icon -->
+        <symbol id="icon-arrow-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="5" y1="12" x2="19" y2="12"/>
+            <polyline points="12 5 19 12 12 19"/>
+        </symbol>
+        
+        <!-- Alert Triangle Icon -->
+        <symbol id="icon-alert-triangle" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+            <line x1="12" y1="9" x2="12" y2="13"/>
+            <line x1="12" y1="17" x2="12.01" y2="17"/>
+        </symbol>
+        
+        <!-- Incognito Icon -->
+        <symbol id="icon-incognito" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 19h16"/>
+            <path d="M6.5 17C7.3 17 9 13.5 9 10c0-3.5 1.6-6 3-6s3 2.5 3 6c0 3.5 1.7 7 2.5 7"/>
+            <path d="M8 14c0 2 2 3 4 3s4-1 4-3"/>
+        </symbol>
+
     </svg>
 
     <!-- JavaScript Files -->

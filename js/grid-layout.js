@@ -179,7 +179,11 @@ const GridLayout = {
         const resetButton = document.getElementById('reset-layout');
         if (resetButton) {
             resetButton.addEventListener('click', () => {
-                this.resetToDefaults();
+                shortcuts.showConfirmDialog(
+                    'Reset Layout',
+                    'Are you sure you want to reset the layout settings to default?',
+                    () => this.resetToDefaults()
+                );
             });
         }
     },
@@ -325,10 +329,12 @@ const GridLayout = {
 };
 
 document.addEventListener('DOMContentLoaded', () => {
+    console.log('DOM content loaded - initializing grid layout');
     GridLayout.init();
 });
 
 window.addEventListener('load', () => {
+    console.log('Window fully loaded - ensuring grid layout is initialized');
     setTimeout(() => {
         if (!window.gridLayoutInitialized) {
             GridLayout.init();
